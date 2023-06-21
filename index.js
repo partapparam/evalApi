@@ -57,7 +57,10 @@ app.use((err, req, res, next) => {
   }
   return res
     .status(500)
-    .json({ message: "error", data: "500-Error with the server, try again." })
+    .json({
+      message: "error",
+      data: `500-Error with the server, try again. ${err.message}`,
+    })
 })
 
 // this will only run if we are testing it. Check Package JSON file for testing script
