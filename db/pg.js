@@ -1,13 +1,13 @@
 const { Pool } = require("pg")
-const connectionString = process.env.POSTGRES_DB
+// const connectionString = process.env.POSTGRES_DB
 
-if (!connectionString) {
-  console.log("No connection String")
-  process.exit(-1)
-}
+// if (!connectionString) {
+//   console.log("No connection String")
+//   process.exit(-1)
+// }
 
 // create new pool
-const pool = new Pool({ connectionString })
+const pool = new Pool()
 // check for any errors on the clients in the backend
 pool.on("error", (err, client) => {
   console.error("error on pg pool", err)

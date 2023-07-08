@@ -5,8 +5,7 @@
 const { Client } = require("pg")
 const seed = require("./seed")
 require("dotenv").config()
-console.log(process.env.POSTGRES_DB)
-const client = new Client(process.env.POSTGRES_DB)
+const client = new Client()
 
 const createScript = `
 CREATE TABLE IF NOT EXISTS users(

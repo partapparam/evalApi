@@ -47,14 +47,15 @@ reviewsRouter.get("/user", checkIfAuth, async (req, res) => {
  * Get all Reviews for Resident
  * Join User as Reviewer, Review Address, and total Likes for Reviews
  */
-const getReviewsByResidentQuery = `SELECT r.*, u.last_name as reviewer_last_name, u.first_name as reviewer_first_name, u.profile_photo as reviewer_profile_photo, u.job_title as reviewer_job_title, (SELECT count(*) FROM likes WHERE r.review_id = likes.like_review_id_fkey) as likes
+const getReviewsForResidentQuery = `SELECT r.*, u.last_name as reviewer_last_name, u.first_name as reviewer_first_name, u.profile_photo as reviewer_profile_photo, u.job_title as reviewer_job_title, (SELECT count(*) FROM likes WHERE r.review_id = likes.like_review_id_fkey) as likes
 FROM reviews r
 JOIN users u ON r.review_user_id_fkey = u.user_id
-WHERE r.review_resident_id_fkey = $1`
+WHERE r.review_resident_id_fkey = $1
+ORDER BY r.created_at DESC`
 reviewsRouter.get("/resident", checkIfAuth, async (req, res) => {
   const { residentId } = req.query
   try {
-    const reviews = await db.query(getReviewsByResidentQuery, [residentId])
+    const reviews = await db.query(getReviewsForResidentQuery, [residentId])
     return res.json({ message: "success", data: reviews.rows })
   } catch (error) {
     console.log("error on 138", error)
