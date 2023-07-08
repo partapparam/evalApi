@@ -35,6 +35,7 @@ residentRouter.get("/", async (req, res) => {
   const addressId = req.query.address
   try {
     const residents = await db.query(getResidentsQuery, [addressId])
+    console.log(residents.rows)
     return res.json({ message: "success", data: residents.rows })
   } catch (error) {
     console.log("error getting all residents", error)
