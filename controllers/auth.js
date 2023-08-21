@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken")
 const { secretKey } = require("../keyConfig")
+const nodemailer = require('nodemailer')
+const crypto = require('crypto')
 const authRouter = require("express").Router()
 const bcrypt = require("bcrypt")
 const db = require("../db/pg")
-const uploadImage = require("../middleware/uploadImage")
-const convertToSnakeCase = require("../middleware/toSnakeCase")
+
 
 /**
  * Queries
@@ -14,7 +15,8 @@ const signupQuery = `INSERT INTO users (first_name, last_name, email, password, 
   VALUES ($1, $2, $3, $4, $5, $6)
   RETURNING *`
 const validateQuery = `SELECT * FROM users WHERE email = $1`
-const getPasswordResetTokenQuery = `SELECT * FROM users WHERE resetToken = $1`
+const getPasswordResetTokenQuery = `SELECT * FROM users WHERE reset_password_token = $1`
+const updateResetPasswordTokenQuery = `UPDATE users SET reset_password_token = $1, reset_password_expires = $2 WHERE user_id = $3`
 
 /**
  * Validates that a user exists
@@ -101,7 +103,59 @@ authRouter.post("/login", async (req, res) => {
 
 /**
  * Forgot Password
- * TODO
+ * Request Token
  */
+
+authRouter.post('/forgotPassword', (req, res) => {
+    if (req.body.email === '') {
+      res.status(400).send('email required');
+    }
+  console.error(req.body.email)
+  // Get User from DB to ensure email exists
+  const response = await validate(req.body.email)
+    const user = response.rows[0] 
+    
+      if (user === null) {
+        console.error('email not in database');
+        res.status(403).send('email not in db');
+      } else {
+        const token = crypto.randomBytes(20).toString('hex');
+        user.update({
+          resetPasswordToken: token,
+          resetPasswordExpires: Date.now() + 3600000,
+        });
+
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: `${process.env.EMAIL_ADDRESS}`,
+            pass: `${process.env.EMAIL_PASSWORD}`,
+          },
+        });
+
+        const mailOptions = {
+          from: 'mySqlDemoEmail@gmail.com',
+          to: `${user.email}`,
+          subject: 'Link To Reset Password',
+          text:
+            'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
+            + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
+            + `http://localhost:3031/reset/${token}\n\n`
+            + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+        };
+
+        console.log('sending mail');
+
+        transporter.sendMail(mailOptions, (err, response) => {
+          if (err) {
+            console.error('there was an error: ', err);
+          } else {
+            res.status(200).json('recovery email sent');
+          }
+        });
+      }
+    });
+  });
+};
 
 module.exports = authRouter
