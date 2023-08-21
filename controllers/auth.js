@@ -14,6 +14,7 @@ const signupQuery = `INSERT INTO users (first_name, last_name, email, password, 
   VALUES ($1, $2, $3, $4, $5, $6)
   RETURNING *`
 const validateQuery = `SELECT * FROM users WHERE email = $1`
+const getPasswordResetTokenQuery = `SELECT * FROM users WHERE resetToken = $1`
 
 /**
  * Validates that a user exists
