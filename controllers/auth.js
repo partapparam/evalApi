@@ -16,6 +16,8 @@ const signupQuery = `INSERT INTO users (first_name, last_name, email, password, 
 const validateQuery = `SELECT * FROM users WHERE email = $1`
 const getPasswordResetTokenQuery = `SELECT * FROM users WHERE reset_password_token = $1 AND reset_password_expires < $2`
 const updateResetPasswordTokenQuery = `UPDATE users SET reset_password_token = $1, reset_password_expires = $2 WHERE user_id = $3`
+const updatePasswordQuery = `UPDATE users SET password = $1 
+WHERE user_id = $2 AND reset_password_token = $3 and reset_password_expires < $4`
 
 /**
  * Validates that a user exists
@@ -180,6 +182,28 @@ authRouter.get("/reset", async (req, res) => {
       user: user.email,
       message: "password reset link a-ok",
     })
+  }
+})
+
+authRouter.put("/update/passwordByEmail", async (req, res) => {
+  // Why would the user have their ID??
+  //
+  //
+  const { password, resetPasswordToken, userId } = req.body
+  const passwordHash = await bcrypt.hash(password, 10)
+  const currentTime = Date.now()
+  try {
+    const response = await db.query(updatePasswordQuery, [
+      passwordHash,
+      userId,
+      resetPasswordToken,
+      currentTime,
+    ])
+    if (response.rows[0]) {
+      res.status(200).send("password update successful")
+    }
+  } catch (err) {
+    res.status(500).send("Password was not reset")
   }
 })
 
