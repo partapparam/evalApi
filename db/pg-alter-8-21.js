@@ -3,6 +3,9 @@ const seed = require("./seed")
 require("dotenv").config()
 const client = new Client()
 
+/**
+ * Add Reset Password Token and Token Expiration on the User Table
+ */
 const createScript = `
 ALTER TABLE users 
 ADD reset_password_token VARCHAR(30) NULL,

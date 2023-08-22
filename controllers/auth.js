@@ -14,7 +14,7 @@ const signupQuery = `INSERT INTO users (first_name, last_name, email, password, 
   VALUES ($1, $2, $3, $4, $5, $6)
   RETURNING *`
 const validateQuery = `SELECT * FROM users WHERE email = $1`
-const getPasswordResetTokenQuery = `SELECT * FROM users WHERE reset_password_token = $1`
+const getPasswordResetTokenQuery = `SELECT * FROM users WHERE reset_password_token = $1 AND reset_password_expires < $2`
 const updateResetPasswordTokenQuery = `UPDATE users SET reset_password_token = $1, reset_password_expires = $2 WHERE user_id = $3`
 
 /**
@@ -163,18 +163,15 @@ authRouter.post("/forgotPassword", async (req, res) => {
 
 /**
  * Get Reset Token to validate request client side
+ * Make sure the token exists in the DB and that it is not expired
  */
 authRouter.get("/reset", async (req, res) => {
-  const response = await db.query(getPasswordResetTokenQuery, [req.body.token])
+  const currentTime = Date.now()
+  const response = await db.query(getPasswordResetTokenQuery, [
+    req.body.token,
+    currentTime,
+  ])
   const user = response.rows[0]
-  // User.findOne({
-  //   where: {
-  //     resetPasswordToken: req.query.resetPasswordToken,
-  //     resetPasswordExpires: {
-  //       [Op.gt]: Date.now(),
-  //     },
-  //   },
-
   if (user == null) {
     console.error("password reset link is invalid or has expired")
     res.status(403).send("password reset link is invalid or has expired")
