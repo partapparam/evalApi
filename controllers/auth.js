@@ -115,6 +115,7 @@ authRouter.post("/forgotPassword", async (req, res) => {
   // Get User from DB to ensure email exists
   const response = await validate(req.body.email)
   const user = response.rows[0]
+  console.log("Found User:", user)
 
   if (user === null) {
     console.error("email not in database")
@@ -122,15 +123,12 @@ authRouter.post("/forgotPassword", async (req, res) => {
   } else {
     const token = crypto.randomBytes(20).toString("hex")
     const expires = Date.now() + 3600000
-    user.update({
-      resetPasswordToken: token,
-      resetPasswordExpires: Date.now() + 3600000,
-    })
-    await db.query(updateResetPasswordTokenQuery, [
-      token,
-      expires,
-      user.user_id,
-    ])
+    console.log(token, expires)
+    // await db.query(updateResetPasswordTokenQuery, [
+    //   token,
+    //   expires,
+    //   user.user_id,
+    // ])
 
     const transporter = nodemailer.createTransport({
       service: "gmail",

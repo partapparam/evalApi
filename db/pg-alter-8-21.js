@@ -13,6 +13,24 @@ ADD reset_password_expires INT NULL
 ;
 `
 
+/**
+ * Need to convert Reset_Password_Token Expireation into BIGINT
+ */
+const updateScript = `
+ALTER TABLE users ALTER COLUMN 
+reset_password_expires TYPE BIGINT
+;
+`
+
+/**
+ * Need to convert Reset_Password_Token into BIGINT
+ */
+const updateScriptForToken = `
+ALTER TABLE users ALTER COLUMN 
+reset_password_token TYPE VARCHAR(100)
+;
+`
+
 client.connect(async (err) => {
   if (err) {
     return console.error("could not connect to postgres", err)
@@ -20,7 +38,7 @@ client.connect(async (err) => {
   try {
     console.log("creating scripts")
 
-    await client.query(createScript)
+    await client.query(updateScript)
   } catch (err) {
     console.log("recieved error---", err)
     process.exit(1)
