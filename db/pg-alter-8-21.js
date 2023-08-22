@@ -38,7 +38,7 @@ client.connect(async (err) => {
   try {
     console.log("creating scripts")
 
-    await client.query(updateScript)
+    await client.query(updateScriptForToken)
   } catch (err) {
     console.log("recieved error---", err)
     process.exit(1)

@@ -14,10 +14,10 @@ const signupQuery = `INSERT INTO users (first_name, last_name, email, password, 
   VALUES ($1, $2, $3, $4, $5, $6)
   RETURNING *`
 const validateQuery = `SELECT * FROM users WHERE email = $1`
-const getPasswordResetTokenQuery = `SELECT * FROM users WHERE reset_password_token = $1 AND reset_password_expires < $2`
+const getPasswordResetTokenQuery = `SELECT * FROM users WHERE reset_password_token = $1 AND reset_password_expires > $2`
 const updateResetPasswordTokenQuery = `UPDATE users SET reset_password_token = $1, reset_password_expires = $2 WHERE user_id = $3`
 const updatePasswordQuery = `UPDATE users SET password = $1 
-WHERE user_id = $2 AND reset_password_token = $3 and reset_password_expires < $4`
+WHERE email = $2 AND reset_password_token = $3 AND reset_password_expires > $4 RETURNING *`
 
 /**
  * Validates that a user exists
@@ -109,26 +109,25 @@ authRouter.post("/login", async (req, res) => {
 
 authRouter.post("/forgotPassword", async (req, res) => {
   if (req.body.email === "") {
-    res.status(400).send("email required")
+    return res.status(400).send("email required")
   }
   console.error(req.body.email)
   // Get User from DB to ensure email exists
   const response = await validate(req.body.email)
   const user = response.rows[0]
-  console.log("Found User:", user)
 
   if (user === null) {
     console.error("email not in database")
-    res.status(403).send("email not in db")
+    return res.status(403).send("email not in db")
   } else {
     const token = crypto.randomBytes(20).toString("hex")
     const expires = Date.now() + 3600000
     console.log(token, expires)
-    // await db.query(updateResetPasswordTokenQuery, [
-    //   token,
-    //   expires,
-    //   user.user_id,
-    // ])
+    await db.query(updateResetPasswordTokenQuery, [
+      token,
+      expires,
+      user.user_id,
+    ])
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -139,7 +138,7 @@ authRouter.post("/forgotPassword", async (req, res) => {
     })
 
     const mailOptions = {
-      from: "mySqlDemoEmail@gmail.com",
+      from: `${process.env.EMAIL_ADDRESS}`,
       to: `${user.email}`,
       subject: "Link To Reset Password",
       text:
@@ -148,14 +147,13 @@ authRouter.post("/forgotPassword", async (req, res) => {
         `http://localhost:3031/reset/${token}\n\n` +
         "If you did not request this, please ignore this email and your password will remain unchanged.\n",
     }
-
-    console.log("sending mail")
-
     transporter.sendMail(mailOptions, (err, response) => {
       if (err) {
         console.error("there was an error: ", err)
       } else {
-        res.status(200).json("recovery email sent")
+        console.log("sending mail")
+        console.log(response)
+        return res.status(200).json("recovery email sent")
       }
     })
   }
@@ -165,7 +163,7 @@ authRouter.post("/forgotPassword", async (req, res) => {
  * Get Reset Token to validate request client side
  * Make sure the token exists in the DB and that it is not expired
  */
-authRouter.get("/reset", async (req, res) => {
+authRouter.get("/password/token", async (req, res) => {
   const currentTime = Date.now()
   const response = await db.query(getPasswordResetTokenQuery, [
     req.body.token,
@@ -174,34 +172,36 @@ authRouter.get("/reset", async (req, res) => {
   const user = response.rows[0]
   if (user == null) {
     console.error("password reset link is invalid or has expired")
-    res.status(403).send("password reset link is invalid or has expired")
+    return res
+      .status(403)
+      .json({ message: "password reset link is invalid or has expired" })
   } else {
-    res.status(200).send({
-      user: user.email,
+    return res.status(200).json({
+      data: user.email,
       message: "password reset link a-ok",
     })
   }
 })
 
 authRouter.put("/update/passwordByEmail", async (req, res) => {
-  // Why would the user have their ID??
-  //
-  //
-  const { password, resetPasswordToken, userId } = req.body
+  const { password, token, email } = req.body
   const passwordHash = await bcrypt.hash(password, 10)
   const currentTime = Date.now()
   try {
     const response = await db.query(updatePasswordQuery, [
       passwordHash,
-      userId,
-      resetPasswordToken,
+      email,
+      token,
       currentTime,
     ])
-    if (response.rows[0]) {
-      res.status(200).send("password update successful")
-    }
+    //
+    //
+    // How to check for a successful update
+    // Look into Node Postgres Result api doc.
+    console.log(response)
+    return res.status(200).send("password update successful")
   } catch (err) {
-    res.status(500).send("Password was not reset")
+    return res.status(500).send("Password was not reset")
   }
 })
 
