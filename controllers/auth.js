@@ -137,7 +137,7 @@ authRouter.post("/forgotPassword", async (req, res) => {
       text:
         "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
         "Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n" +
-        `http://localhost:3031/reset/${token}\n\n` +
+        `${process.env.CLIENT_URL}/reset/password${token}\n\n` +
         "If you did not request this, please ignore this email and your password will remain unchanged.\n",
     }
     NodemailerTransporter.sendMail(mailOptions, (err, response) => {
@@ -158,7 +158,7 @@ authRouter.post("/forgotPassword", async (req, res) => {
  * Get Reset Token to validate request client side
  * Make sure the token exists in the DB and that it is not expired
  */
-authRouter.get("/password/token", async (req, res) => {
+authRouter.get("/confirm/token", async (req, res) => {
   const currentTime = Date.now()
   try {
     const response = await db.query(getPasswordResetTokenQuery, [
