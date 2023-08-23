@@ -148,7 +148,9 @@ authRouter.post("/forgotPassword", async (req, res) => {
         console.log("sending mail")
       }
     })
-    return res.status(200).json({ data: token, message: "success" })
+    return res
+      .status(200)
+      .json({ data: "Email sent with token.", message: "success" })
   } catch (error) {
     return res.status(500).json({ data: error.message, message: "error" })
   }
