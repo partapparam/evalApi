@@ -134,11 +134,13 @@ authRouter.post("/forgotPassword", async (req, res) => {
       from: `${process.env.EMAIL_ADDRESS}`,
       to: `${user.email}`,
       subject: "Link To Reset Password",
-      text:
-        "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
-        "Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n" +
-        `${process.env.CLIENT_URL}/forgotPassword/reset?token=${token}&e=${user.email}\n\n` +
-        "If you did not request this, please ignore this email and your password will remain unchanged.\n",
+      html: `<div>
+        <h3>You are receiving this because you (or someone else) have requested the reset of the password for your account.</h3>
+        <p>Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n</p>
+        <a href=${process.env.CLIENT_URL}/forgotPassword/reset?token=${token}&e=${user.email}>Click here to change your password</a>\n\n</p>
+        <p>If you did not request this, please ignore this email and your password will remain unchanged.\n</p>
+        <a href=${process.env.CLIENT_URL}/forgotPassword/reset?token=${token}&e=${user.email}>${process.env.CLIENT_URL}/forgotPassword/reset?token=${token}&e=${user.email}</a>
+        </div>`,
     }
     NodemailerTransporter.sendMail(mailOptions, (err, response) => {
       if (err) {
