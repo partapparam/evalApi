@@ -179,7 +179,7 @@ authRouter.get("/confirm/token", async (req, res) => {
       message: "success",
     })
   } catch (error) {
-    return res.status(403).json({
+    return res.json({
       data: error.message,
       message: "error",
     })
@@ -188,23 +188,26 @@ authRouter.get("/confirm/token", async (req, res) => {
 
 authRouter.put("/update/passwordByEmail", async (req, res) => {
   const { password, token, email } = req.body
-  const passwordHash = await bcrypt.hash(password, 10)
+  console.log(req.body)
   const currentTime = Date.now()
   try {
+    const passwordHash = await bcrypt.hash(password, 10)
     const result = await db.query(updatePasswordQuery, [
       passwordHash,
       email,
       token,
       currentTime,
     ])
+    console.log(result.rowCount)
     // result.rowCount returns number of rows processed by our query
-    if (result.rowCount === 1) {
+    if (result.rowCount == 1) {
+      console.log("row", result.rows)
       return res.status(200).json({ data: "success", message: "success" })
-    } else if (result.rowCount === 0) {
+    } else if (result.rowCount == 0) {
       throw Error("Could not update password, the token is expired.")
     }
   } catch (err) {
-    return res.status(500).json({ data: "Failed", message: err.message })
+    return res.json({ data: err.message, message: "error" })
   }
 })
 
