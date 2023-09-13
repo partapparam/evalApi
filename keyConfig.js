@@ -1,15 +1,15 @@
 const fs = require("fs")
 
 /**
- * Use is Dev mode
+ * Use in Dev mode
  */
-// const secretKey = fs.readFileSync("./jwtRS256.key")
-// const publicKey = fs.readFileSync("./jwtRS256.key.pub")
+const secretKey = fs.readFileSync("./jwtRS256.key")
+const publicKey = fs.readFileSync("./jwtRS256.key.pub")
 
 /**
- * Use is Production mode
+ * Use in Production mode
  */
-const secretKey = process.env.JWT_SECRET_KEY
-const publicKey = process.env.JWT_PUBLIC_KEY
+// const secretKey = process.env.JWT_SECRET_KEY
+// const publicKey = process.env.JWT_PUBLIC_KEY
 
 module.exports = { secretKey, publicKey }

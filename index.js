@@ -35,12 +35,14 @@ const userRouter = require("./controllers/user")
 const addressRouter = require("./controllers/address")
 const residentRouter = require("./controllers/resident")
 const reviewRouter = require("./controllers/review")
+const feedbackRouter = require("./controllers/feedback")
 const likeRouter = require("./controllers/like")
 app.use("/api/auth", authRouter)
 app.use("/api/addresses", addressRouter)
 app.use("/api/residents", residentRouter)
 app.use("/api/reviews", reviewRouter)
 app.use("/api/users", userRouter)
+app.use("/api/feedback", feedbackRouter)
 
 /**
  * Handles all failed routing that do not match or Auth is not met
@@ -55,12 +57,10 @@ app.use((err, req, res, next) => {
       .status(401)
       .json({ message: "error", data: "Please log in to Eval." })
   }
-  return res
-    .status(500)
-    .json({
-      message: "error",
-      data: `500-Error with the server, try again. ${err.message}`,
-    })
+  return res.status(500).json({
+    message: "error",
+    data: `500-Error with the server, try again. ${err.message}`,
+  })
 })
 
 // this will only run if we are testing it. Check Package JSON file for testing script

@@ -12,8 +12,8 @@ const convertToSnakeCase = require("../middleware/toSnakeCase")
  */
 const getUserQuery = `SELECT * from users 
   WHERE user_id = $1`
-const updateUserQuery = `UPDATE users SET first_name = $1, last_name = $2, email = $3, job_title = $4 WHERE user_id = $5`
-const updateImageQuery = `UPDATE users SET profile_photo = $1 WHERE user_id = $2 RETURNING profile_photo, user_id, first_name, last_name, email, job_title, created_at`
+const updateUserQuery = `UPDATE users SET first_name = $1, last_name = $2, email = $3, job_title = $4, industry = $5 WHERE user_id = $5`
+const updateImageQuery = `UPDATE users SET profile_photo = $1 WHERE user_id = $2 RETURNING profile_photo, user_id, first_name, last_name, email, job_title, industry, created_at`
 const updateUsernameQuery = `UPDATE users SET username = $1 WHERE user_id = $2`
 
 /**
@@ -25,6 +25,9 @@ userRouter.get("/:id", async (req, res) => {
     const response = await db.query(getUserQuery, [id])
     const user = response.rows[0]
     delete user.password
+    delete user.updated_at
+    delete user.reset_password_token
+    delete user.reset_password_expires
     return res.json({ message: "success", data: user })
   } catch (error) {
     console.log("Test js.21", error._message)
@@ -46,6 +49,7 @@ userRouter.put("/:id/update", checkIfAuth, async (req, res) => {
       body.last_name,
       body.email,
       body.job_title,
+      body.industry,
       userId,
     ])
     return res.json({ message: "success", data: "User updated" })
