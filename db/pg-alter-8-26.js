@@ -6,9 +6,9 @@ const client = new Client()
 /**
  * Add Reset Password Token and Token Expiration on the User Table
  */
-const createScript = `
+const UpdateIndustryScript = `
 ALTER TABLE users 
-ADD industry VARCHAR(30) NOT NULL,
+ADD industry VARCHAR(60) NULL,
 ADD accepted_terms_and_conditions INT NOT NULL DEFAULT 0
 ;
 `
@@ -20,7 +20,7 @@ client.connect(async (err) => {
   try {
     console.log("creating scripts")
 
-    await client.query()
+    await client.query(UpdateIndustryScript)
   } catch (err) {
     console.log("recieved error---", err)
     process.exit(1)
