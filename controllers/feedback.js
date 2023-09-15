@@ -22,7 +22,9 @@ feedbackRouter.post("/", async (req, res) => {
       }
     })
 
-    return res.status(200).json({ data: "success" })
+    return res
+      .status(200)
+      .json({ message: "success", data: "Email is sent, check log" })
   } catch (err) {
     return res.json({ message: "error", data: err })
   }
