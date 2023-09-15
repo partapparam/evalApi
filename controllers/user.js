@@ -12,7 +12,7 @@ const convertToSnakeCase = require("../middleware/toSnakeCase")
  */
 const getUserQuery = `SELECT * from users 
   WHERE user_id = $1`
-const updateUserQuery = `UPDATE users SET first_name = $1, last_name = $2, job_title = $3, industry = $4 WHERE user_id = $5`
+const updateUserQuery = `UPDATE users SET first_name = $1, last_name = $2, job_title = $3, industry = $4 WHERE user_id = $5 RETURNING profile_photo, user_id, first_name, last_name, email, job_title, industry, created_at`
 const updateImageQuery = `UPDATE users SET profile_photo = $1 WHERE user_id = $2 RETURNING profile_photo, user_id, first_name, last_name, email, job_title, industry, created_at`
 const updateUsernameQuery = `UPDATE users SET username = $1 WHERE user_id = $2`
 
@@ -41,19 +41,17 @@ userRouter.get("/:id", async (req, res) => {
 userRouter.put("/:id/update", checkIfAuth, async (req, res) => {
   const body = req.body
   const userId = req.params.id
-  console.log("id: ", userId, body, req.auth.userId)
   if (+userId !== +req.auth.userId)
     throw Error("Incorrect user -- you do not have permission")
   try {
     const updatedUser = await db.query(updateUserQuery, [
       body.first_name,
       body.last_name,
-      body.email,
       body.job_title,
       body.industry,
       userId,
     ])
-    return res.json({ message: "success", data: "User updated" })
+    return res.json({ message: "success", data: updatedUser.rows[0] })
   } catch (error) {
     console.log("error on 31", error)
     return res.json({ message: "error", data: "error updating user" })
