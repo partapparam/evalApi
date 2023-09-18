@@ -16,6 +16,12 @@ require("./db/pg")
 app.use(helmet())
 app.use(
   cors({
+    origin: [
+      "https://eval-app.com/",
+      "https://6508cd89ba445e61a63ccc56--lustrous-kheer-f91877.netlify.app/",
+    ],
+    preflightContinue: false,
+    credentials: true,
     allowedHeaders: "Content-Type, Authorization",
   })
 )
