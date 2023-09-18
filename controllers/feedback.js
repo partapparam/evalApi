@@ -4,9 +4,9 @@ const NodemailerTransporter = require("../config/nodemailer")
 feedbackRouter.post("/", async (req, res) => {
   const mailOptions = {
     from: `"Eval ${process.env.EMAIL_ADDRESS}`,
-    to: `${req.body.email}`,
+    to: `psingh10287@gmail.com`,
     subject: "New Feedback",
-    html: `<div>${req.body.feedback}</div>`,
+    html: `<div><h2>User: ${req.body.email}</h2> gave us feedback: <p>${req.body.feedback}</p></div>`,
   }
 
   NodemailerTransporter.sendMail(mailOptions, (err, response) => {

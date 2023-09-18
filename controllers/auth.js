@@ -135,7 +135,7 @@ authRouter.post("/forgotPassword", async (req, res) => {
       user.user_id,
     ])
     const mailOptions = {
-      from: `"Eval Help" <${process.env.EMAIL_ADDRESS}>`,
+      from: `Eval ${process.env.EMAIL_ADDRESS}`,
       to: `${user.email}`,
       subject: "Link To Reset Password",
       html: `<div>
