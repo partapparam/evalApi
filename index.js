@@ -14,7 +14,11 @@ require("./db/pg")
 // removes -x-powered-by response header
 // app.disable("x-powered-by")
 app.use(helmet())
-app.use(cors({ allowedHeaders: "Content-Type, Authorization" }))
+app.use(
+  cors({
+    allowedHeaders: "Content-Type, Authorization",
+  })
+)
 
 // Cant use express.json for multipart form type for image upload. Use Multer
 app.use(express.json())
