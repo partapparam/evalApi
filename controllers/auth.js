@@ -122,7 +122,6 @@ authRouter.post("/forgotPassword", async (req, res) => {
   // Get User from DB to ensure email exists
   const response = await validate(req.body.email)
   const user = response.rows[0]
-  console.log(user)
   try {
     if (!user) {
       console.error("email not in database")
@@ -130,13 +129,11 @@ authRouter.post("/forgotPassword", async (req, res) => {
     }
     const token = crypto.randomBytes(20).toString("hex")
     const expires = Date.now() + 3600000
-    console.log(token, expires)
     const result = await db.query(updateResetPasswordTokenQuery, [
       token,
       expires,
       user.user_id,
     ])
-    console.log(result)
     const mailOptions = {
       from: `"Eval Help" <${process.env.EMAIL_ADDRESS}>`,
       to: `${user.email}`,
