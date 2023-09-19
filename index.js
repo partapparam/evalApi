@@ -18,13 +18,16 @@ app.use(
   cors({
     origin: [
       "https://eval-app.com",
+      "https://www.eval-app.com",
       "https://6508cd89ba445e61a63ccc56--lustrous-kheer-f91877.netlify.app",
     ],
     preflightContinue: false,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     allowedHeaders: "Content-Type, Authorization",
   })
 )
+app.options("*", cors())
 
 // Cant use express.json for multipart form type for image upload. Use Multer
 app.use(express.json())
