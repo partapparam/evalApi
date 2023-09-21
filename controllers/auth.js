@@ -50,6 +50,7 @@ authRouter.post("/signup", async (req, res) => {
       console.log(existingUser)
       throw new Error("The user already exists, please login with email")
     }
+    if (user.accepted_terms === true) user.accepted_terms = 1
     const passwordHash = await bcrypt.hash(user.password, saltRounds)
     const response = await db.query(signupQuery, [
       user.first_name,
@@ -59,7 +60,7 @@ authRouter.post("/signup", async (req, res) => {
       user.job_title,
       process.env.PROFILE_PHOTO_DEFAULT,
       user.industry,
-      user.confirmTerms,
+      user.accepted_terms,
     ])
     // remove password from response
     delete response.rows[0].password
