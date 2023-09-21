@@ -19,6 +19,7 @@ app.use(
     origin: [
       "https://eval-app.com",
       "https://www.eval-app.com",
+      "http://localhost:3000",
       "https://6508cd89ba445e61a63ccc56--lustrous-kheer-f91877.netlify.app",
     ],
     preflightContinue: false,

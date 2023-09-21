@@ -23,7 +23,7 @@ residentRouter.post("/", checkIfAuth, async (req, res) => {
       resident.first_name,
       resident.last_name,
       resident.type,
-      resident.apt,
+      resident.unit,
     ])
     return res.json({ message: "success", data: savedResident.rows[0] })
   } catch (error) {
