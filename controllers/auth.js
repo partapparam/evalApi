@@ -10,8 +10,8 @@ const NodemailerTransporter = require("../config/nodemailer")
  * Queries
  */
 
-const signupQuery = `INSERT INTO users (first_name, last_name, email, password, job_title, profile_photo, industry) 
-  VALUES ($1, $2, $3, $4, $5, $6, $7)
+const signupQuery = `INSERT INTO users (first_name, last_name, email, password, job_title, profile_photo, industry, accepted_terms_and_conditions) 
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
   RETURNING *`
 const validateQuery = `SELECT * FROM users WHERE email = $1`
 const getPasswordResetTokenQuery = `SELECT * FROM users WHERE reset_password_token = $1 AND reset_password_expires > $2`
@@ -59,12 +59,14 @@ authRouter.post("/signup", async (req, res) => {
       user.job_title,
       process.env.PROFILE_PHOTO_DEFAULT,
       user.industry,
+      user.confirmTerms,
     ])
     // remove password from response
     delete response.rows[0].password
     delete response.rows[0].updated_at
     delete response.rows[0].reset_password_token
     delete response.rows[0].reset_password_expires
+    delete response.rows[0].accepted_terms_and_conditions
     // create token
     const token = createToken(response.rows[0])
     return res.json({
@@ -98,6 +100,8 @@ authRouter.post("/login", async (req, res) => {
     delete user.updated_at
     delete user.reset_password_token
     delete user.reset_password_expires
+    delete response.rows[0].accepted_terms_and_conditions
+
     const token = createToken(user)
     return res
       .status(200)

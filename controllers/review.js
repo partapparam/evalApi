@@ -70,7 +70,6 @@ reviewsRouter.get("/resident", checkIfAuth, async (req, res) => {
 const saveReviewQuery = `INSERT INTO reviews (review_user_id_fkey, review_resident_id_fkey, rating, payment, patient, friendly, respectful, review) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`
 reviewsRouter.post("/", checkIfAuth, async (req, res) => {
   const body = req.body
-  console.log(body)
   try {
     let savedReview = await db.query(saveReviewQuery, [
       body.reviewer_user_id,
