@@ -10,7 +10,7 @@ const convertToSnakeCase = require("../middleware/toSnakeCase")
  * Queries
  * Confirm ID in URL == req.auth.user_id from Decoded JWT Token
  */
-const getUserQuery = `SELECT * from users 
+const getUserQuery = `SELECT * FROM users 
   WHERE user_id = $1`
 const updateUserQuery = `UPDATE users SET first_name = $1, last_name = $2, job_title = $3, industry = $4 WHERE user_id = $5 RETURNING profile_photo, user_id, first_name, last_name, email, job_title, industry, created_at`
 const updateImageQuery = `UPDATE users SET profile_photo = $1 WHERE user_id = $2 RETURNING profile_photo, user_id, first_name, last_name, email, job_title, industry, created_at`
