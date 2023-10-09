@@ -5,7 +5,7 @@ const getAllUsers = `SELECT email, user_id, first_name, last_name, created_at, j
 
 const getAllResidents = `SELECT * FROM residents`
 const getAllReviews = `SELECT r.*, u.first_name as reviewer_first_name, u.last_name as reviewer_last_name, d.first_name as resident_first_name, d.last_name as resident_last_name 
-FROM review r
+FROM reviews r
 JOIN users u ON r.review_user_id_fkey = u.user_id
 JOIN residents d ON r.review_resident_id_fkey = d.resident_id
 `
@@ -39,3 +39,5 @@ adminRouter.get("/residents", async (req, res) => {
     return res.json({ message: "error", data: error })
   }
 })
+
+module.exports = adminRouter

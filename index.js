@@ -58,6 +58,7 @@ app.use("/api/residents", residentRouter)
 app.use("/api/reviews", reviewRouter)
 app.use("/api/users", userRouter)
 app.use("/api/feedback", feedbackRouter)
+app.use("/api/admin", adminRouter)
 
 /**
  * Handles all failed routing that do not match or Auth is not met
