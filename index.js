@@ -20,6 +20,8 @@ app.use(
       "https://eval-app.com",
       "https://www.eval-app.com",
       "http://localhost:3000",
+      "http://localhost:5137",
+      "http://evaladmin.netlify.app",
       "https://6508cd89ba445e61a63ccc56--lustrous-kheer-f91877.netlify.app",
     ],
     preflightContinue: false,
