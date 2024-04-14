@@ -10,3 +10,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run a one-line script
         run: echo Hello, world!
+  teardown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Goodbye
+        run: echo goodbye everyone.
