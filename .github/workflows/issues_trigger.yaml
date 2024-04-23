@@ -16,7 +16,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
-          ISSUE: ${{github.event.issue}}
+          ISSUE: ${{ github.event.issue }}
           BODY: >
             Hi @[REPLACE WITH AUTHOR]
             Based on the `feature: feature branch` label, this issue should target a feature branch.  Please consult the instructions on [working off of a feature branch](https://github.com/hackforla/website/wiki/How-to-work-off-of-a-feature-branch)
@@ -32,6 +32,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
-          ISSUE: ${{github.event.issue}}
+          ISSUE: ${{ github.event.issue }}
           BODY: >
             The commment should be removed
