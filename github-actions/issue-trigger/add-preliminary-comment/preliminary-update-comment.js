@@ -11,25 +11,17 @@ var context
  * @description - This function is the entry point into the javascript file, it formats the md file based on the result of the previous step and then posts it to the issue
  * @param {Object} g - github object
  * @param {Object} c - context object
- * @param {Boolean} actionResult - the previous gh-action's result
  * @param {Number} issueNum - the number of the issue where the post will be made
  */
 
-async function main({ g, c }, { shouldPost, issueNum }) {
+async function main({ g, c }, { issueNum }) {
   github = g
   context = c
-  // If the previous action returns a false, stop here
-  if (shouldPost === false) {
-    console.log("No need to post comment.")
-    return
-  }
   //Else we make the comment with the issuecreator's github handle instead of the placeholder.
-  else {
-    const instructions = await makeComment()
-    if (instructions !== null) {
-      // the actual creation of the comment in github
-      await postComment(issueNum, instructions, github, context)
-    }
+  const instructions = await makeComment()
+  if (instructions !== null) {
+    // the actual creation of the comment in github
+    await postComment(issueNum, instructions, github, context)
   }
 }
 
