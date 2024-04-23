@@ -1,0 +1,65 @@
+name: Issue Trigger
+on:
+  issues:
+    types: [opened, assigned, labeled, unlabeled]
+jobs:
+  # adds missing labels to issues
+  Add-Missing-Label-To-Issues:
+    runs-on: ubuntu-latest
+    #   Only trigger this when the issue is created
+    if: ${{ github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'transferred')}}
+    steps:
+      - uses: actions/checkout@v4
+      # check if the issue has required labels
+      - name: Check Labels
+        id: check-labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./github-actions/trigger-issue/add-missing-labels-to-issues/check-labels.js')
+            const checkLabels = script({g: github, c: context})
+            return checkLabels
+    #Asking for preliminary update when issue is assigned
+  Ask-For-Preliminary-update:
+    runs-on: ubuntu-latest
+    #Triggers when the issue is newly assigned
+    if: ${{ github.event_name == 'issues' && github.event.action == 'assigned'}}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Check if the issue has the required roles
+      - name: Check Labels Prelim
+        uses: actions/github-script@v7
+        id: check-labels-prelim
+        with:
+          script: |
+            const script = require('./github-actions/trigger-issue/add-preliminary-comment/check-label-preliminary-update.js')
+            const checklabels = script({g: github, c: context})
+            return checklabels
+
+      # Post the comment based on the result of the previous step
+      - name: Post assigning issue comment
+        id: assigned-comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = ${{ steps.check-labels-prelim.outputs.result }}
+            const script = require('./github-actions/trigger-issue/add-preliminary-comment/preliminary-update-comment.js')
+            script({g: github, c:context},results)
+  #   trigger for issues that are labeled
+  Add-Comment-For-Feature-Issue:
+    if: "${{github.event.label.name == 'feature: feature branch'}}"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add comment
+        run: gh issue comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          BODY: >
+            This issue is available for anyone to work on.
+            **Make sure to reference this issue in your pull request.**
+            :sparkles: Thank you for your contribution! :sparkles:
