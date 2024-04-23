@@ -14,9 +14,10 @@ var context
  * @param {Number} issueNum - the number of the issue where the post will be made
  */
 
-async function main({ g, c }, { issueNum }) {
+async function main({ g, c }) {
   github = g
   context = c
+  const issueNum = context.payload.issue.number
   //Else we make the comment with the issuecreator's github handle instead of the placeholder.
   const instructions = await makeComment()
   if (instructions !== null) {
