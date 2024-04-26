@@ -10,6 +10,9 @@ jobs:
     permissions:
       issues: write
     steps:
+      # uses checkout
+      - uses: actions/checkout@v4
+      # add comment
       - name: Add comment
         uses: actions/github-script@v4
         with:
