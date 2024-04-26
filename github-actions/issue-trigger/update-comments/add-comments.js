@@ -12,10 +12,10 @@ async function main({ g, c }) {
   console.log("context", context)
   const owner = context.repo.owner
   const repo = context.repo.repo
-  const issueNumber = context.issue.number
+  const issueNumber = context.payload.issue.number
 
   // Add issue number used to reference the issue and comment on the `Dev/PM Agenda and Notes`
-  const commentBody = `Hi @[REPLACE WITH AUTHOR]
+  const commentBody = `Hi @${context.actor}
             Based on the \`feature: feature branch\` label, this issue should target a feature branch.  Please consult the instructions on [working off of a feature branch](https://github.com/hackforla/website/wiki/How-to-work-off-of-a-feature-branch)`
   await postComment(issueNumber, commentBody, github, context)
 }
