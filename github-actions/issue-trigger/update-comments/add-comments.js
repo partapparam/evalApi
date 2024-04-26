@@ -8,7 +8,6 @@ var context
 async function main({ g, c }) {
   github = g
   context = c
-  console.log(github.event)
   console.log("context", context)
   const owner = context.repo.owner
   const repo = context.repo.repo
