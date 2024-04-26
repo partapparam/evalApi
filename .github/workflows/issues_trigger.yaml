@@ -11,7 +11,11 @@ jobs:
       issues: write
     steps:
       - name: Add comment
-        run: gh issue comment "$NUMBER" --body "$BODY"
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const script = require('./github-actions/issue-trigger/update-comments/add-comments.js')
+            script({g: github, c: context})
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
@@ -35,3 +39,19 @@ jobs:
           ISSUE: ${{ github.event.issue.comments }}
           BODY: >
             The commment should be removed
+
+# TODO
+# github.rest.issues.listforrepo
+# create-new-issue.js
+# The github global variable passed in will allow us to get the token
+# Use this along with the find comment to fetch comments
+
+# - name: Run script
+#   env:
+#     TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#   run: |
+#     node .github/actions-scripts/use-the-api.mjs
+
+# const octokit = new Octokit({
+#   auth: process.env.TOKEN,
+# });
