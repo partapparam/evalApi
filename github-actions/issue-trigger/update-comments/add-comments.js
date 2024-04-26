@@ -19,37 +19,37 @@ async function main({ g, c }) {
   await postComment(issueNumber, commentBody, github, context)
 }
 
-async function fetchComments({ github, context }) {
-  let issueNumber = github.event.issue.number
-  let owner = context.repo.owner
-  let repo = context.repo.repo
-  const comments = await github.rest.issues.listComments({
-    owner: owner,
-    repo: repo,
-    issue_number: issueNumber,
-  })
-  return comments
-}
+// async function fetchComments({ github, context }) {
+//   let issueNumber = github.event.issue.number
+//   let owner = context.repo.owner
+//   let repo = context.repo.repo
+//   const comments = await github.rest.issues.listComments({
+//     owner: owner,
+//     repo: repo,
+//     issue_number: issueNumber,
+//   })
+//   return comments
+// }
 
-export function findCommentPredicate(comment) {
-  return comment.body.includes("string to match")
-}
+// export function findCommentPredicate(comment) {
+//   return comment.body.includes("string to match")
+// }
 
-export function findMatchingComment(comments) {
-  const matchingComments = comments.filter((comment) =>
-    findCommentPredicate(comment)
-  )
-  const comment = matchingComments[0]
-  console.log("matching comments", matchingComments)
-  if (comment) {
-    return comment
-  }
-  return undefined
-}
+// export function findMatchingComment(comments) {
+//   const matchingComments = comments.filter((comment) =>
+//     findCommentPredicate(comment)
+//   )
+//   const comment = matchingComments[0]
+//   console.log("matching comments", matchingComments)
+//   if (comment) {
+//     return comment
+//   }
+//   return undefined
+// }
 
-export async function findComment() {
-  const comments = await fetchComments()
-  return findMatchingComment(comments)
-}
+// export async function findComment() {
+//   const comments = await fetchComments()
+//   return findMatchingComment(comments)
+// }
 
 module.exports = main
