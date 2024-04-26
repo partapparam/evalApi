@@ -8,10 +8,11 @@ var context
 async function main({ g, c }) {
   github = g
   context = c
-
+  console.log(github.event)
+  console.log("context", context)
   const owner = context.repo.owner
   const repo = context.repo.repo
-  const issueNumber = github.event.issue.number
+  const issueNumber = context.issue.number
 
   // Add issue number used to reference the issue and comment on the `Dev/PM Agenda and Notes`
   const commentBody = `Hi @[REPLACE WITH AUTHOR]
