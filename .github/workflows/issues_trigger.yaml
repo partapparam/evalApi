@@ -4,7 +4,7 @@ on:
     types: [opened, assigned, labeled, unlabeled]
 jobs:
   #   trigger for issues that are labeled
-  Add-Comment-For-Feature-Issue:
+  Add-New-Comment-For-Feature-Issue:
     if: "${{github.event.label.name == 'feature: feature branch' && github.event.action == 'labeled'}}"
     runs-on: ubuntu-latest
     permissions:
@@ -12,10 +12,8 @@ jobs:
     steps:
       # uses checkout
       - uses: actions/checkout@v4
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # add comment
-      - name: Add comment
+      - name: Add new label comment
         uses: actions/github-script@v7
         with:
           script: |
