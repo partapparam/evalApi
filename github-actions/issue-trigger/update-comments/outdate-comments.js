@@ -53,7 +53,7 @@ function findMatchingComment(comments) {
 }
 
 async function findComment(github, context) {
-  const comments = await fetchComments({ github, context })
+  const comments = await fetchComments(github, context)
   return findMatchingComment(comments)
 }
 
