@@ -13,6 +13,7 @@ async function main({ g, c }) {
   const issueNumber = context.payload.issue.number
   const comment = await findComment(github, context)
   if (comment && comment.node_id) {
+    console.log(comment)
     await hideComment(github, comment.node_id)
   }
   // core.setOutput("comment-id", comment.id.toString())
@@ -31,7 +32,6 @@ async function fetchComments(github, context) {
   })
   const comments = response.data
   console.log("got the comments")
-  console.log(comments)
   return comments
 }
 
@@ -46,7 +46,6 @@ function findMatchingComment(comments) {
     comment.body.includes("`feature: feature branch`")
   )
   const comment = matchingComments[0]
-  console.log("matching comments", matchingComments)
   if (comment) {
     return comment
   }
