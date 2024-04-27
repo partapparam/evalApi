@@ -17,9 +17,10 @@
 // }
 
 async function hideComment(github, nodeID) {
-  const reason = "OUTDATED"
+  const reason = "outdated"
+  console.log(nodeID)
   try {
-    await github.graphql(`
+    const result = await github.graphql(`
       mutation {
         minimizeComment(input: {classifier: ${reason}, subjectId: "${nodeID}"}) {
           minimizedComment {
@@ -28,6 +29,7 @@ async function hideComment(github, nodeID) {
         }
       }
     `)
+    console.log("the result")
   } catch (err) {
     throw new Error(err)
   }

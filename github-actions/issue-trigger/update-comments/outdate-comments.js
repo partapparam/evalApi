@@ -16,6 +16,7 @@ async function main({ g, c }) {
     console.log(comment)
     await hideComment(github, comment.node_id)
   }
+  console.log("failed")
   // core.setOutput("comment-id", comment.id.toString())
   // core.setOutput("comment-node-id", comment.node_id)
 }
