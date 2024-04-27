@@ -12,6 +12,7 @@ async function main({ g, c }) {
   const repo = context.repo.repo
   const issueNumber = context.payload.issue.number
   const comment = await findComment()
+
   // core.setOutput("comment-id", comment.id.toString())
   // core.setOutput("comment-node-id", comment.node_id)
 
@@ -19,9 +20,10 @@ async function main({ g, c }) {
 }
 
 async function fetchComments({ github, context }) {
-  let issueNumber = github.event.issue.number
   let owner = context.repo.owner
   let repo = context.repo.repo
+  const issueNumber = context.payload.issue.number
+
   const comments = await github.rest.issues.listComments({
     owner: owner,
     repo: repo,

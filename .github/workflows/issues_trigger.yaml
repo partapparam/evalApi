@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    # permissions:
-    #   issues: write
+    permissions:
+      issues: write
     steps:
       # uses checkout
       - uses: actions/checkout@v4
@@ -24,8 +24,8 @@ jobs:
   Hide-Comment-For-Feature-Issue:
     if: "${{github.event.action == 'unlabeled' && github.event.label.name == 'feature: feature branch'}}"
     runs-on: ubuntu-latest
-    # permissions:
-    #   issues: write
+    permissions:
+      issues: write
     steps:
       # uses checkout
       - uses: actions/checkout@v4
