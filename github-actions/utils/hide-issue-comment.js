@@ -4,7 +4,7 @@
 \ */
 
 async function hideComment(github, nodeID) {
-  const reason = "outdated"
+  const reason = "OUTDATED"
   console.log(nodeID)
   try {
     const resp = await github.graphql(`
