@@ -7,6 +7,8 @@ jobs:
   Add-New-Comment-For-Feature-Issue:
     if: "${{github.event.label.name == 'feature: feature branch' && github.event.action == 'labeled'}}"
     runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
     # permissions:
     #   issues: write
     steps:

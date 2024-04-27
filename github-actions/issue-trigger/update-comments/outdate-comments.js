@@ -32,13 +32,13 @@ async function fetchComments({ github, context }) {
   return comments
 }
 
-export function findCommentPredicate(comment) {
+function findCommentPredicate(comment) {
   return comment.body.includes(
     "Based on the feature: feature branch label, this issue should target a feature branch."
   )
 }
 
-export function findMatchingComment(comments) {
+function findMatchingComment(comments) {
   const matchingComments = comments.filter((comment) =>
     findCommentPredicate(comment)
   )
@@ -50,7 +50,7 @@ export function findMatchingComment(comments) {
   return undefined
 }
 
-export async function findComment() {
+async function findComment() {
   const comments = await fetchComments()
   return findMatchingComment(comments)
 }
