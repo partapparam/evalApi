@@ -11,7 +11,7 @@ async function main({ g, c }) {
   const owner = context.repo.owner
   const repo = context.repo.repo
   const issueNumber = context.payload.issue.number
-  const comment = await findComment()
+  const comment = await findComment(github, context)
 
   // core.setOutput("comment-id", comment.id.toString())
   // core.setOutput("comment-node-id", comment.node_id)
@@ -19,7 +19,7 @@ async function main({ g, c }) {
   await hideComment(github, comment.node_id)
 }
 
-async function fetchComments({ github, context }) {
+async function fetchComments(github, context) {
   let owner = context.repo.owner
   let repo = context.repo.repo
   const issueNumber = context.payload.issue.number
@@ -52,8 +52,8 @@ function findMatchingComment(comments) {
   return undefined
 }
 
-async function findComment() {
-  const comments = await fetchComments()
+async function findComment(github, context) {
+  const comments = await fetchComments({ github, context })
   return findMatchingComment(comments)
 }
 
