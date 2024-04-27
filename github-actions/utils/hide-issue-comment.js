@@ -1,26 +1,13 @@
 /**
  * Posts a comment on github
- * @param {Number} issueNum - the issue number where the comment should be posted
- * @param {String} comment - the comment to be posted
- */
-// async function postComment(issueNum, comment, github, context) {
-//   try {
-//     await github.rest.issues.createComment({
-//       owner: context.repo.owner,
-//       repo: context.repo.repo,
-//       issue_number: issueNum,
-//       body: comment,
-//     })
-//   } catch (err) {
-//     throw new Error(err)
-//   }
-// }
+ * @param {Number} nodeID - the issue number where the comment should be posted
+\ */
 
 async function hideComment(github, nodeID) {
   const reason = "outdated"
   console.log(nodeID)
   try {
-    const result = await github.graphql(`
+    const resp = await github.graphql(`
       mutation {
         minimizeComment(input: {classifier: ${reason}, subjectId: "${nodeID}"}) {
           minimizedComment {
@@ -29,7 +16,10 @@ async function hideComment(github, nodeID) {
         }
       }
     `)
-    console.log("the result")
+    if (resp.errors) {
+      throw new Error(`${resp.errors[0].message}`)
+    }
+    return resp
   } catch (err) {
     throw new Error(err)
   }
