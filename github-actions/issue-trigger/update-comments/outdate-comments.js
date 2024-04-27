@@ -43,9 +43,7 @@ function findCommentPredicate(comment) {
 
 function findMatchingComment(comments) {
   const matchingComments = comments.filter((comment) =>
-    comment.body.includes(
-      "Based on the feature: feature branch label, this issue should target a feature branch."
-    )
+    comment.body.includes("`feature: feature branch`")
   )
   const comment = matchingComments[0]
   console.log("matching comments", matchingComments)
