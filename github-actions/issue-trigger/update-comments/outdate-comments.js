@@ -24,11 +24,12 @@ async function fetchComments(github, context) {
   let repo = context.repo.repo
   const issueNumber = context.payload.issue.number
 
-  const comments = await github.rest.issues.listComments({
+  const response = await github.rest.issues.listComments({
     owner: owner,
     repo: repo,
     issue_number: issueNumber,
   })
+  const comments = response.data
   console.log("got the comments")
   console.log(comments)
   return comments
