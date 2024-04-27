@@ -12,11 +12,11 @@ async function main({ g, c }) {
   const repo = context.repo.repo
   const issueNumber = context.payload.issue.number
   const comment = await findComment(github, context)
-
+  if (comment && comment.node_id) {
+    await hideComment(github, comment.node_id)
+  }
   // core.setOutput("comment-id", comment.id.toString())
   // core.setOutput("comment-node-id", comment.node_id)
-
-  await hideComment(github, comment.node_id)
 }
 
 async function fetchComments(github, context) {
@@ -43,7 +43,9 @@ function findCommentPredicate(comment) {
 
 function findMatchingComment(comments) {
   const matchingComments = comments.filter((comment) =>
-    findCommentPredicate(comment)
+    comment.body.includes(
+      "Based on the feature: feature branch label, this issue should target a feature branch."
+    )
   )
   const comment = matchingComments[0]
   console.log("matching comments", matchingComments)
