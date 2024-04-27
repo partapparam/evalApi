@@ -3,21 +3,22 @@
  * @param {Number} issueNum - the issue number where the comment should be posted
  * @param {String} comment - the comment to be posted
  */
-async function postComment(issueNum, comment, github, context) {
-  try {
-    await github.rest.issues.createComment({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      issue_number: issueNum,
-      body: comment,
-    })
-  } catch (err) {
-    throw new Error(err)
-  }
-}
+// async function postComment(issueNum, comment, github, context) {
+//   try {
+//     await github.rest.issues.createComment({
+//       owner: context.repo.owner,
+//       repo: context.repo.repo,
+//       issue_number: issueNum,
+//       body: comment,
+//     })
+//   } catch (err) {
+//     throw new Error(err)
+//   }
+// }
 
-async function HideComment(github, context, nodeID, reason) {
-    const resp = await github.graphql(`
+async function hideComment(github, nodeID) {
+  const reason = "OUTDATED"
+  await github.graphql(`
       mutation {
         minimizeComment(input: {classifier: ${reason}, subjectId: "${nodeID}"}) {
           minimizedComment {
@@ -26,5 +27,6 @@ async function HideComment(github, context, nodeID, reason) {
         }
       }
     `)
+}
 
-module.exports = HideComment
+module.exports = hideComment

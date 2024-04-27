@@ -28,11 +28,11 @@ jobs:
       # uses checkout
       - uses: actions/checkout@v4
       # add comment
-      - name: remove the commetn label comment
+      - name: outdate the comment label
         uses: actions/github-script@v7
         with:
           script: |
-            const script = require('./github-actions/issue-trigger/update-comments/add-comments.js')
+            const script = require('./github-actions/issue-trigger/update-comments/outdate-comments.js')
             script({g: github, c: context})
 
 # TODO
