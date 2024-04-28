@@ -30,7 +30,7 @@ async function main({ g, c }) {
 
 async function makeComment() {
   const commentObject = {
-    replacementString: context.payload.actor,
+    replacementString: context.actor,
     placeholderString: "${actor}",
     filePathToFormat:
       "./github-actions/issue-trigger/update-comments/feature-branch-comment.md",
