@@ -8,12 +8,8 @@ var context
 async function main({ g, c }) {
   github = g
   context = c
-  const owner = context.repo.owner
-  const repo = context.repo.repo
-  const issueNumber = context.payload.issue.number
   const comment = await findComment(github, context)
   if (comment && comment.node_id) {
-    console.log(comment)
     await hideComment(github, comment.node_id)
   }
   console.log("failed")
@@ -31,9 +27,8 @@ async function fetchComments(github, context) {
     repo: repo,
     issue_number: issueNumber,
   })
-  const comments = response.data
-  console.log("got the comments")
-  return comments
+
+  return response.data
 }
 
 function findCommentPredicate(comment) {
@@ -46,7 +41,9 @@ function findMatchingComment(comments) {
   const matchingComments = comments.filter((comment) =>
     comment.body.includes("`feature: feature branch`")
   )
-  const comment = matchingComments[0]
+  // this will return the oldest comment, we want the most recent
+  // get last comment, autosorted by github ascending order by date
+  const comment = matchingComments[matchingComments.length - 1]
   if (comment) {
     return comment
   }

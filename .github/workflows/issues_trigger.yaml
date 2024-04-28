@@ -52,3 +52,7 @@ jobs:
 # const octokit = new Octokit({
 #   auth: process.env.TOKEN,
 # });
+
+# TOOLS USED
+# find-comment action
+# hider-comment / comment-hider action
