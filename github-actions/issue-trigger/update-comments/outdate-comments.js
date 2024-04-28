@@ -1,4 +1,4 @@
-// Import modules
+// Import modules to hide comment
 const hideComment = require("../../utils/hide-issue-comment")
 
 // Global variables
@@ -12,9 +12,6 @@ async function main({ g, c }) {
   if (comment && comment.node_id) {
     await hideComment(github, comment.node_id)
   }
-  console.log("failed")
-  // core.setOutput("comment-id", comment.id.toString())
-  // core.setOutput("comment-node-id", comment.node_id)
 }
 
 async function fetchComments(github, context) {

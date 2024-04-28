@@ -1,21 +1,46 @@
 // Import modules
+var fs = require("fs")
 const postComment = require("../../utils/post-issue-comment")
+const formatComment = require("../../utils/format-comment")
 
 // Global variables
 var github
 var context
 
+/**
+ * @description - This function is the entry point into the javascript file, it formats the md file and posts the comment on the issue
+ * @param {Object} g - github object
+ * @param {Object} c - context object
+ */
 async function main({ g, c }) {
   github = g
   context = c
-  const owner = context.repo.owner
-  const repo = context.repo.repo
   const issueNumber = context.payload.issue.number
+  const instructions = await makeComment()
+  if (instructions !== null) {
+    // the actual creation of the comment in github
+    await postComment(issueNumber, instructions, github, context)
+  }
+}
 
-  // Add issue number used to reference the issue and comment on the `Dev/PM Agenda and Notes`
-  const commentBody = `Hi @${context.actor}
-            Based on the \`feature: feature branch\` label, this issue should target a feature branch.  Please consult the instructions on [working off of a feature branch](https://github.com/hackforla/website/wiki/How-to-work-off-of-a-feature-branch)`
-  await postComment(issueNumber, commentBody, github, context)
+/**
+ * @description - This function makes the comment with the label event actor's name github handle using the raw feature-branch-comment.md file
+ * @returns {string} - Comment to be posted with the issue label event actor's name
+ */
+
+async function makeComment() {
+  const commentObject = {
+    replacementString: context.payload.actor,
+    placeholderString: "${actor}",
+    filePathToFormat:
+      "./github-actions/issue-trigger/update-comments/feature-branch-comment.md",
+    textToFormat: null,
+  }
+
+  // creating the comment with label event actor's name and returning it!
+  const commentWithEventActor = formatComment(commentObject, fs)
+  console.log(commentWithEventActor)
+  return commentWithEventActor
 }
 
 module.exports = main

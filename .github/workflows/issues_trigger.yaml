@@ -3,7 +3,7 @@ on:
   issues:
     types: [opened, assigned, labeled, unlabeled]
 jobs:
-  #   trigger for issues that are labeled
+  #   trigger for issues that are labeled and should be commented
   Add-New-Comment-For-Feature-Issue:
     if: "${{github.event.label.name == 'feature: feature branch' && github.event.action == 'labeled'}}"
     runs-on: ubuntu-latest
@@ -21,6 +21,7 @@ jobs:
           script: |
             const script = require('./github-actions/issue-trigger/update-comments/add-comments.js')
             script({g: github, c: context})
+  # trigger to Hide a comment once label is removed
   Hide-Comment-For-Feature-Issue:
     if: "${{github.event.action == 'unlabeled' && github.event.label.name == 'feature: feature branch'}}"
     runs-on: ubuntu-latest
