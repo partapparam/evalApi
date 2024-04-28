@@ -1,7 +1,7 @@
 /**
- * Posts a comment on github
- * @param {Number} nodeID - the issue number where the comment should be posted
-\ */
+ * Hide a comment as OUTDATE on github
+ * @param {Number} nodeID - the comment to be marked as 'OUTDATED'
+ */
 
 async function hideComment(github, nodeID) {
   const reason = "OUTDATED"
@@ -18,7 +18,6 @@ async function hideComment(github, nodeID) {
     if (resp.errors) {
       throw new Error(`${resp.errors[0].message}`)
     }
-    return resp
   } catch (err) {
     throw new Error(err)
   }

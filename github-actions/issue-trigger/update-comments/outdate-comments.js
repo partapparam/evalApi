@@ -30,13 +30,11 @@ async function fetchComments(github, context) {
 
   return response.data
 }
-
-function findCommentPredicate(comment) {
-  return comment.body.includes(
-    "Based on the feature: feature branch label, this issue should target a feature branch."
-  )
-}
-
+/**
+ *
+ * @param {Array} comments
+ * @returns
+ */
 function findMatchingComment(comments) {
   const matchingComments = comments.filter((comment) =>
     comment.body.includes("`feature: feature branch`")
