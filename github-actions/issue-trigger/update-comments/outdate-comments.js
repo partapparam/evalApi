@@ -5,15 +5,25 @@ const hideComment = require("../../utils/hide-issue-comment")
 var github
 var context
 
+/**
+ * @description - This function is the entry point into the javascript file, it formats the md file and posts the comment on the issue
+ * @param {Object} g - github object
+ * @param {Object} c - context object
+ */
 async function main({ g, c }) {
   github = g
   context = c
   const comment = await findComment(github, context)
+  // if the comment exists, then we hide it
   if (comment && comment.node_id) {
     await hideComment(github, comment.node_id)
   }
 }
 
+/**
+ * @description - fetch comments from GitHub issue
+ * @returns array of comments, sorted in ascending order by date created
+ */
 async function fetchComments(github, context) {
   let owner = context.repo.owner
   let repo = context.repo.repo
@@ -24,20 +34,18 @@ async function fetchComments(github, context) {
     repo: repo,
     issue_number: issueNumber,
   })
-
   return response.data
 }
+
 /**
- *
- * @param {Array} comments
- * @returns
+ * @description - Goes through an array of comments to find ones with matching  body, returns the most recent
+ * @param {Array} comments array of comments to search through
+ * @returns most recent comment made with matching `feature: feature branch`
  */
 function findMatchingComment(comments) {
   const matchingComments = comments.filter((comment) =>
     comment.body.includes("`feature: feature branch`")
   )
-  // this will return the oldest comment, we want the most recent
-  // get last comment, autosorted by github ascending order by date
   const comment = matchingComments[matchingComments.length - 1]
   if (comment) {
     return comment
@@ -45,6 +53,10 @@ function findMatchingComment(comments) {
   return undefined
 }
 
+/**
+ * @description - Parent function, will find the most recent matching comment
+ * @returns matching comment
+ */
 async function findComment(github, context) {
   const comments = await fetchComments(github, context)
   return findMatchingComment(comments)
