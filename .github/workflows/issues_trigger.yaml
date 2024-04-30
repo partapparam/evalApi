@@ -1,7 +1,10 @@
 name: Issue Trigger
 on:
   issues:
-    types: [opened, assigned, labeled, unlabeled]
+    types:
+      - opened
+      - labeled
+      - unlabeled
 jobs:
   # Adds newly created issues onto project board in the default column 'New Issue Approval'
   # unless overridden when issue has "LA website bot" in title, then 'Questions / In Review'
@@ -58,6 +61,10 @@ jobs:
             const script = require('./github-actions/issue-trigger/update-comments/add-comments.js')
             const addComment = script({g: github, c: context})
             return addComment
+      - env:
+          EVENT_CONTEXT: ${{ toJSON(github.event) }}
+        run: |
+          echo $EVENT_CONTEXT
   # trigger to Hide a comment once label is removed
   Hide-Comment-For-Feature-Issue:
     runs-on: ubuntu-latest
@@ -95,3 +102,6 @@ jobs:
 # TOOLS USED
 # find-comment action
 # hider-comment / comment-hider action
+
+# TODO
+# If you specify multiple activity types, only one of those event activity types needs to occur to trigger your workflow. If multiple triggering event activity types for your workflow occur at the same time, multiple workflow runs will be triggered. For example, the following workflow triggers when an issue is opened or labeled. If an issue with two labels is opened, three workflow runs will start: one for the issue opened event and two for the two issue labeled events.
