@@ -5,8 +5,8 @@ on:
 jobs:
   #   trigger for issues that are labeled and should be commented
   Add-New-Comment-For-Feature-Issue:
-    if: "${{github.event.label.name == 'feature: feature branch' && github.event.action == 'labeled'}}"
     runs-on: ubuntu-latest
+    if: "${{ github.event_name == 'issues' && github.event.label.name == 'feature: feature branch' && github.event.action == 'labeled'}}"
     env:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
     permissions:
@@ -23,8 +23,8 @@ jobs:
             script({g: github, c: context})
   # trigger to Hide a comment once label is removed
   Hide-Comment-For-Feature-Issue:
-    if: "${{github.event.action == 'unlabeled' && github.event.label.name == 'feature: feature branch'}}"
     runs-on: ubuntu-latest
+    if: "${{ github.event_name == 'issues' && github.event.action == 'unlabeled' && github.event.label.name == 'feature: feature branch'}}"
     permissions:
       issues: write
     steps:
