@@ -19,6 +19,7 @@ jobs:
           script: |
             const script = 'add missing label'
             console.log(script)
+            return script
 
   #Asking for preliminary update when issue is assigned
   Ask-For-Preliminary-update:
@@ -36,6 +37,7 @@ jobs:
           script: |
             const script = 'ask for update missing label'
             console.log(script)
+            return script
 
   #   trigger for issues that are labeled and should be commented
   Add-New-Comment-For-Feature-Issue:
@@ -54,7 +56,8 @@ jobs:
         with:
           script: |
             const script = require('./github-actions/issue-trigger/update-comments/add-comments.js')
-            script({g: github, c: context})
+            const addComment = script({g: github, c: context})
+            return addComment
   # trigger to Hide a comment once label is removed
   Hide-Comment-For-Feature-Issue:
     runs-on: ubuntu-latest
@@ -70,7 +73,8 @@ jobs:
         with:
           script: |
             const script = require('./github-actions/issue-trigger/update-comments/outdate-comments.js')
-            script({g: github, c: context})
+            const outdateComment = script({g: github, c: context})
+            return outdateComment
 
 # TODO
 # github.rest.issues.listforrepo
