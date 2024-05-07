@@ -11,10 +11,13 @@ async function hideComment(github, nodeID) {
         minimizeComment(input: {classifier: ${reason}, subjectId: "${nodeID}"}) {
           minimizedComment {
             isMinimized
+            minimizedReason
+            viewerCanMinimize
           }
         }
       }
     `)
+    console.log("Return from api:", resp)
     if (resp.errors) {
       throw new Error(`${resp.errors[0].message}`)
     }
