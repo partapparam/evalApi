@@ -5,6 +5,9 @@ on:
       - opened
       - labeled
       - unlabeled
+      - closed
+      - unassigned
+      - assigned
 jobs:
   # Adds newly created issues onto project board in the default column 'New Issue Approval'
   # unless overridden when issue has "LA website bot" in title, then 'Questions / In Review'
@@ -83,30 +86,18 @@ jobs:
             const outdateComment = script({g: github, c: context})
             return outdateComment
 
-# TODO
-# github.rest.issues.listforrepo
-# create-new-issue.js
-# The github global variable passed in will allow us to get the token
-# Use this along with the find comment to fetch comments
-
-# - name: Run script
-#   env:
-#     TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#   run: |
-#     node .github/actions-scripts/use-the-api.mjs
-
-# const octokit = new Octokit({
-#   auth: process.env.TOKEN,
-# });
-
-# TOOLS USED
-# find-comment action
-# hider-comment / comment-hider action
-
-# TODO
-# If you specify multiple activity types, only one of those event activity types needs to occur to trigger your workflow. If multiple triggering event activity types for your workflow occur at the same time, multiple workflow runs will be triggered. For example, the following workflow triggers when an issue is opened or labeled. If an issue with two labels is opened, three workflow runs will start: one for the issue opened event and two for the two issue labeled events.
-##7
-# For example, if you want the workflow to run when a specific label is added to an issue, you can trigger on the issues labeled event activity type and use a conditional to check what label triggered the workflow. The following workflow will run when any label is added to an issue in the workflow's repository, but the run_if_label_matches job will only execute if the label is named bug.
-
-#
-# If you specify multiple events, only one of those events needs to occur to trigger your workflow. If multiple triggering events for your workflow occur at the same time, multiple workflow runs will be triggered.
+  Test-Close-Issue:
+    runs-on: ubuntu-latest
+    if: "${{ github.event_name == 'issues' && github.event.action == 'closed' }}"
+    permissions:
+      issues: write
+    steps:
+      # uses checkout
+      - uses: actions/checkout@v4
+      # add comment
+      - name: test issue close
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log(github.event)
+            console.log(context.payload.issue)
