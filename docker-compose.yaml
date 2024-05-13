@@ -1,0 +1,7 @@
+version: "3"
+services:
+  eval-api:
+    image: partapparam/eval-api
+    build: ./
+    ports:
+      - 3005:3005
