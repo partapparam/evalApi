@@ -4,8 +4,6 @@ on:
     types:
       - created
 jobs:
-  # Adds newly created issues onto project board in the default column 'New Issue Approval'
-  # unless overridden when issue has "LA website bot" in title, then 'Questions / In Review'
   Pull-Request-Review-Commnet:
     runs-on: ubuntu-latest
     # Only trigger this action when an issue is newly created
