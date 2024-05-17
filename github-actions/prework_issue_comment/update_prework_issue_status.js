@@ -19,7 +19,6 @@ async function main({ g, c }, issue) {
   if (issue.closed == true) {
     await reopenIssue(issue.id, github, context)
   }
-  return
 }
 
 module.exports = main
