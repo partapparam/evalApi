@@ -18,7 +18,7 @@ async function main({ g, c }, actor) {
   actor = "partapparam"
   let label = "Complexity: Prework"
   const issue = await getIssueByLabel(actor, label, github, context)
-  return
+  return issue
 }
 
 module.exports = main
