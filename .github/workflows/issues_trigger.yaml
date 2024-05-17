@@ -94,13 +94,15 @@ jobs:
     steps:
       # uses checkout
       - uses: actions/checkout@v4
-      # add comment
-      - name: Activity on Issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            console.log(context.payload.issue)
 
+      - name: Find prework issue
+        uses: ./github/workflows/reusable_comment_workflow.yaml
+      # add comment
+      # - name: Activity on Issue
+      #   uses: actions/github-script@v7
+      #   with:
+      #     script: |
+      #       console.log(context.payload.issue)
 # Issue Object
 
 # MARKED AS COMPLETED
