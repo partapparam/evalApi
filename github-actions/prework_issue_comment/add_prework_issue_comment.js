@@ -14,9 +14,10 @@ async function main({ g, c }, actor) {
   github = g
   context = c
 
-  let issues = await github.graphql(query, {
+  let results = await github.graphql(query, {
     actor: actor,
   })
+  let issues = results.repository.issues.nodes.map((issue) => issue)
   console.log("issues fetched:", issues)
 }
 
