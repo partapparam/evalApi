@@ -20,7 +20,7 @@ jobs:
             script({g: github, c: context}, 'partapparam')
 
       - name: Update prework issue status
-        id: preword-issue-status
+        id: prework-issue-status
         uses: actions/github-script@v7
         with:
           script: |
