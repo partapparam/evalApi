@@ -17,7 +17,8 @@ jobs:
         with:
           script: |
             const script = require('./github-actions/prework_issue_comment/get-activity-contributor.js')
-            return script({g: github, c: context})
+            const value = script({g: github, c: context})
+            console.log(value)
 
       - name: Get prework issue
         id: prework-issue

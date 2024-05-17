@@ -6,7 +6,7 @@ on:
 jobs:
   # Adds newly created issues onto project board in the default column 'New Issue Approval'
   # unless overridden when issue has "LA website bot" in title, then 'Questions / In Review'
-  Add-Comment-To-Prework-Issue: # Only trigger this action when an issue is newly created
+  Add-Comment-To-Prework-Issue: # Only trigger this action when an issue comment is newly created
     if: ${{ github.event_name == 'issue_comment' && github.event.action == 'created'}}
     permissions:
       issues: write

@@ -13,18 +13,26 @@ var context
 async function main({ g, c }) {
   github = g
   context = c
-  console.log(context.eventName, context)
-  //     if (context.eventName == 'created') {
-
-  //   }
+  //   console.log(context.eventName, context)
+  if (context.eventName == "issue_comment") {
+    return getIssueCommentEventType()
+  } else if (context.eventName == "issue") {
+    return getIssueEventType()
+  } else if (context.eventName == "pull_request") {
+    return getPullRequestEventType()
+  } else if (context.eventName == "pull_request_review") {
+    return getPullRequestReviewEventType()
+  } else if (context.eventName == "pull_request_review_comment") {
+    return getPullRequestReviewCommentEventType()
+  }
   //
 }
 
 function getIssueEventType(context) {
   let contributor = ""
-  if (context.eventName == "opened") {
+  if (context.payload.action == "opened") {
     contributor = context.payload.issue.user.login
-  } else if (context.eventName == "closed") {
+  } else if (context.payload.action == "closed") {
     //   context.payload.issue.assignee.login can be null if issue is not assigned
     //   and marked closed
     contributor = context.payload.issue.assignee.login || context.actor
@@ -37,15 +45,29 @@ function getIssueEventType(context) {
 }
 
 function getIssueCommentEventType(context) {
-  return context.comment.user.login
+  return context.payload.comment.user.login
+}
+
+function getPullRequestEventType(context) {
+  return context.payload.pull_request.user.login
+}
+
+function getPullRequestReviewEventType(context) {
+  // also achievable by the context.sender - user who did this event
+  return context.payload.review.user.login
+}
+
+function getPullRequestReviewCommentEventType(context) {
+  // also achievable by the context.sender - user who did this event
+  return context.payload.comment.user.login
 }
 
 module.exports = main
 
 // unassigned
-// context.payload.action
+// context.payload.action = unassigned
 // context.payload.assignee.login
-// context.eventName
+// context.eventName = issue
 
 // assigned
 // context.payload.action
