@@ -16,7 +16,7 @@ async function reopenIssue(issueId, github, context) {
  * GraphQL query template to use to execute the mutation.
  */
 const mutation = `
-mutation ($issueId: String!) {
+mutation ($issueId: ID!) {
   reopenIssue (input: { issueId: $issueId}) {
     issue {
       title
