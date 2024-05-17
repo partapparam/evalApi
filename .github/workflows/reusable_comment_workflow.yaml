@@ -16,16 +16,25 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const script = require('./github-actions/prework_issue_comment/add_prework_issue_comment.js')
+            const script = require('./github-actions/prework_issue_comment/get-prework-issue.js')
             return script({g: github, c: context}, 'partapparam')
+
+      - name: Update prework issue status
+        id: preword-issue-status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./github-actions/prework_issue_comment/update_prework_issue_status.js')
+            const issue = ${{steps.prework-issue.outputs.result}}
+            return script({g: github, c: context}, issue)
 
       - name: Leave comment on Issue
         uses: actions/github-script@v7
         with:
           script: |
             const script = require('./github-actions/utils/post-issue-comment.js')
-            const issues = ${{steps.prework-issue.outputs.result}}
-            return script(issues[0].number, 'adding comment', github, context)
+            const issue = ${{steps.prework-issue.outputs.result}}
+            return script(issue.number, 'adding comment', github, context)
     #   - name: Login to the Registry
     #     uses: docker/login-action@v1
     #     with:
