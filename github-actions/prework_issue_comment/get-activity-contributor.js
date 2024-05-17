@@ -14,7 +14,9 @@ async function main({ g, c }) {
   github = g
   context = c
   console.log(context.eventName, context)
-  return getIssueEventType(context)
+  //     if (context.eventName == 'created') {
+
+  //   }
   //
 }
 
@@ -23,16 +25,19 @@ function getIssueEventType(context) {
   if (context.eventName == "opened") {
     contributor = context.payload.issue.user.login
   } else if (context.eventName == "closed") {
+    //   context.payload.issue.assignee.login can be null if issue is not assigned
+    //   and marked closed
     contributor = context.payload.issue.assignee.login || context.actor
   } else {
     //   assigned or unassigned
+    //   on unassigned event, the `issue.assignee` is null.
     contributor = context.payload.assignee.login
   }
   return contributor
 }
 
-function getIssueCommentEventType(action) {
-  return context.payload.issue
+function getIssueCommentEventType(context) {
+  return context.comment.user.login
 }
 
 module.exports = main
