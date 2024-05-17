@@ -38,6 +38,15 @@ query ($actor: String!, $label: String!, $owner: String!, $repository: String!) 
          number
          url
          id
+         projectCards {
+          nodes {
+            databaseId
+            column {
+              name
+              id
+              __typename
+            }
+        }
        }
      }
    }
