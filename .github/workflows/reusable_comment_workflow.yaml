@@ -13,7 +13,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            console.log(context.payload.issue)
+            const script = require('./github-actions/prework_issue_comment/add_prework_issue_comment.js')
+            return script({g: github, c: context}, 'partapparam')
 
     #   - name: Login to the Registry
     #     uses: docker/login-action@v1
