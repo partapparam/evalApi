@@ -4,7 +4,7 @@
  */
 async function reopenIssue(issueId, github, context) {
   try {
-    await github.graphql.issues.createComment(mutation, {
+    await github.graphql(mutation, {
       issueId: issueId,
     })
   } catch (err) {
