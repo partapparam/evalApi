@@ -10,7 +10,7 @@ var context
  * @param {Object} g - github object
  * @param {Object} c - context object
  */
-async function main({ g, c }, actor) {
+async function main({ g, c }) {
   github = g
   context = c
   console.log(context.eventName, context)
@@ -22,7 +22,7 @@ function getIssueEventType(context) {
   let contributor = ""
   if (context.eventName == "opened") {
     contributor = context.payload.issue.user.login
-  } else if (github.event.action == "closed") {
+  } else if (context.eventName == "closed") {
     contributor = context.payload.issue.assignee.login || context.actor
   } else {
     //   assigned or unassigned
