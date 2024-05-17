@@ -100,7 +100,8 @@ jobs:
 
   Test-Issue:
     if: "${{ github.event_name == 'issues' && (github.event.action == 'closed' || github.event.action == 'opened' || github.event.action == 'assigned' || github.event.action == 'unassigned')}}"
-
+    permissions:
+      issues: write
     uses:
       partapparam/evalApi/.github/workflows/reusable_comment_workflow.yaml@master
       # add comment
