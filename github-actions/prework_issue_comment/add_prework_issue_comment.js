@@ -19,6 +19,7 @@ async function main({ g, c }, actor) {
   })
   let issues = results.repository.issues.nodes.map((issue) => issue)
   console.log("issues fetched:", issues)
+  return issues
 }
 
 /**
