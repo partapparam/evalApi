@@ -87,7 +87,6 @@ jobs:
             return outdateComment
 
   Add-Comment-To-Prework-Issue:
-    runs-on: unbuntu-latest
     if: "${{ github.event.action == 'opened' || github.event.action == 'closed' || github.event.action == 'assigned' || github.event.action == 'unassigned'}}"
     permissions:
       issues: write
