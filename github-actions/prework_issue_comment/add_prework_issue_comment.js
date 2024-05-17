@@ -24,7 +24,7 @@ async function main({ g, c }, actor) {
  * GraphQL query template to use to execute the search.
  */
 const query = `
-query {
+query ($actor: String!) {
   repository (owner:"partapparam", name: "evalApi") {
    issues (labels: ["Complexity: Prework"], first: 5, filterBy: {createdBy: $actor}) {
      nodes {
