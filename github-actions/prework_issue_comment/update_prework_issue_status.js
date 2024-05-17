@@ -1,7 +1,6 @@
 // Import modules
 var fs = require("fs")
 var reopenIssue = require("../utils/reopen-issue")
-const { result } = require("lodash")
 
 // Global variables
 var github
@@ -15,7 +14,7 @@ var context
 async function main({ g, c }, issue) {
   github = g
   context = c
-
+  console.log("The issue", issue)
   if (issue.closed == true) {
     await reopenIssue(issue.id, github, context)
   }
