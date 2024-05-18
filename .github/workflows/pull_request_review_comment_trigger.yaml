@@ -4,8 +4,8 @@ on:
     types:
       - created
 jobs:
-  Pull-Request-Review-Commnet:
-    # Only trigger this action when an issue is newly created
+  Pull-Request-Review-Comment:
+    # Only trigger this action when an PR comment is created
     if: ${{ github.event_name == 'pull_request_review_comment' && github.event.action == 'created'}}
     permissions:
       issues: write
