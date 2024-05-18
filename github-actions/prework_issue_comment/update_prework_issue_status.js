@@ -15,7 +15,6 @@ var context
 async function main({ g, c }, issue) {
   github = g
   context = c
-  console.log("card", issueProjectCard)
 
   // TODO value is hardcoded
   // Project Number =1 , for HFLA project number = 7
