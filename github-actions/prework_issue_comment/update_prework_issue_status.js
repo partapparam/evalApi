@@ -15,7 +15,6 @@ var context
 async function main({ g, c }, issue) {
   github = g
   context = c
-  const issueProjectCard = issue.projectCards.nodes[0]
   console.log("card", issueProjectCard)
 
   // TODO value is hardcoded
@@ -24,6 +23,7 @@ async function main({ g, c }, issue) {
   if (issue.closed == true) {
     const result = await reopenIssue(issue.id, github, context)
     console.log("returned issue", result)
+    const issueProjectCard = result.projectCards.nodes[0]
     await updateIssueProjectCard(issueProjectCard.id, projectColumnId, github)
   }
 }
