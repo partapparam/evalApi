@@ -11,6 +11,7 @@ async function getIssueByLabel(actor, label, github, context) {
       owner: "partapparam",
       repository: "evalApi",
     })
+
     let issue = results.repository.issues.nodes[0]
     return issue
   } catch (err) {
@@ -24,7 +25,7 @@ async function getIssueByLabel(actor, label, github, context) {
 const query = `
 query ($actor: String!, $label: String!, $owner: String!, $repository: String!) {
   repository (owner: $owner, name: $repository) {
-   issues (labels: [$label], first: 1, filterBy: {createdBy: $actor}) {
+   issues (first: 1, filterBy: {createdBy: $actor labels: [$label]}) {
      nodes {
        __typename
        ... on Issue {
