@@ -21,6 +21,11 @@ mutation ($issueId: ID!) {
     issue {
       title
       state
+      projectCards {
+          nodes {
+            id
+          }
+        }
     }
   }
 }

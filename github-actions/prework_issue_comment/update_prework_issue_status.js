@@ -15,14 +15,15 @@ var context
 async function main({ g, c }, issue) {
   github = g
   context = c
-  const issueProjectCard = issue.projectCards.nodes[0].card
-  console.log(" card", issueProjectCard)
+  const issueProjectCard = issue.projectCards.nodes[0]
+  console.log("card", issueProjectCard)
 
   // TODO value is hardcoded
   // Project Number =1 , for HFLA project number = 7
   const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
   if (issue.closed == true) {
-    await reopenIssue(issue.id, github, context)
+    const result = await reopenIssue(issue.id, github, context)
+    console.log("returned issue", result)
     await updateIssueProjectCard(issueProjectCard.id, projectColumnId, github)
   }
 }
