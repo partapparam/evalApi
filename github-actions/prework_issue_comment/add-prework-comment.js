@@ -23,8 +23,9 @@ async function main({ g, c }, issueNumber, activityDetail) {
 }
 
 /**
- * @description - This function makes the comment with the label event actor's name github handle using the raw feature-branch-comment.md file
- * @returns {string} - Comment to be posted with the issue label event actor's name
+ * @activityDetail  - This function makes the comment with the label event actor's name github handle using the raw feature-branch-comment.md file
+ * @param {object} activityDetail
+ * @returns {Promise<string>} - Comment to be posted with the issue label event actor's name
  */
 
 async function makeComment(activityDetail) {

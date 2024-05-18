@@ -47,10 +47,10 @@ query ($actor: String!, $label: String!, $owner: String!, $repository: String!) 
               id
               __typename
             }
+          }
         }
-       }
-     }
-   }
+      }
+    }
   }
 }
 }

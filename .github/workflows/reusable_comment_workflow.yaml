@@ -46,4 +46,4 @@ jobs:
             const script = require('./github-actions/prework_issue_comment/add-prework-comment.js')
             const issue = ${{steps.prework-issue.outputs.result}}
             const activityDetail = ${{steps.prework-issue.outputs.result}}
-            return script(issue.number, activityDetail, github, context)
+            return script({ github, context}, issue.number, activityDetail)
