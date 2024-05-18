@@ -33,7 +33,7 @@ async function getIssueEventType(context) {
   const activityDetail = {
     contributor: "",
     action: context.payload.action,
-    activityObject: `#${context.payload.issue.number}`,
+    activityObject: `Issue #${context.payload.issue.number}`,
   }
   if (context.payload.action == "opened") {
     activityDetail.contributor = context.payload.issue.user.login
@@ -63,7 +63,7 @@ async function getPullRequestEventType(context) {
   const activityDetail = {
     contributor: context.payload.pull_request.user.login,
     action: context.payload.action,
-    activityObject: `#${context.payload.pull_request.number}`,
+    activityObject: `PR #${context.payload.pull_request.number}`,
   }
   return activityDetail
 }
@@ -73,7 +73,7 @@ async function getPullRequestReviewEventType(context) {
   const activityDetail = {
     contributor: context.payload.review.user.login,
     action: context.payload.action,
-    activityObject: `#${context.payload.pull_request.number}`,
+    activityObject: `PR #${context.payload.pull_request.number}`,
   }
   return activityDetail
 }
@@ -83,7 +83,7 @@ async function getPullRequestReviewCommentEventType(context) {
   const activityDetail = {
     contributor: context.payload.comment.user.login,
     action: context.payload.action,
-    activityObject: `#${context.payload.comment.url}`,
+    activityObject: `${context.payload.comment.url}`,
   }
   return activityDetail
 }

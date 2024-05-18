@@ -15,8 +15,9 @@ var context
 async function main({ g, c }, issue) {
   github = g
   context = c
-  console.log("The issue", issue)
   const issueProjectCard = issue.projectCards.nodes[0]
+  console.log(" card", issueProjectCard)
+
   // TODO value is hardcoded
   // Project Number =1 , for HFLA project number = 7
   const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
