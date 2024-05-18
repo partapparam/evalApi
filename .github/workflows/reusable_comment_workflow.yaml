@@ -18,7 +18,6 @@ jobs:
           script: |
             const script = require('./github-actions/prework_issue_comment/get-activity-contributor.js')
             const contributor = script({g: github, c: context})
-            console.log(contributor)
             return contributor
 
       - name: Get prework issue
@@ -28,6 +27,7 @@ jobs:
           script: |
             const script = require('./github-actions/prework_issue_comment/get-prework-issue.js')
             const activityDetail = ${{steps.get-activity-detail.outputs.result}}
+            console.log(activityDetail)
             return script({g: github, c: context}, activityDetail)
 
       - name: Update prework issue status
