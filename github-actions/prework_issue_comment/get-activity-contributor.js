@@ -15,17 +15,17 @@ async function main({ g, c }) {
   context = c
   console.log(context)
   //   console.log(context.eventName, context)
-  //   if (context.eventName == "issue_comment") {
-  //     return getIssueCommentEventType()
-  //   } else if (context.eventName == "issue") {
-  //     return getIssueEventType()
-  //   } else if (context.eventName == "pull_request") {
-  //     return getPullRequestEventType()
-  //   } else if (context.eventName == "pull_request_review") {
-  //     return getPullRequestReviewEventType()
-  //   } else if (context.eventName == "pull_request_review_comment") {
-  //     return getPullRequestReviewCommentEventType()
-  //   }
+  if (context.eventName == "issue_comment") {
+    return getIssueCommentEventType(context)
+  } else if (context.eventName == "issue") {
+    return getIssueEventType(context)
+  } else if (context.eventName == "pull_request") {
+    return getPullRequestEventType(context)
+  } else if (context.eventName == "pull_request_review") {
+    return getPullRequestReviewEventType(context)
+  } else if (context.eventName == "pull_request_review_comment") {
+    return getPullRequestReviewCommentEventType(context)
+  }
   //
 }
 
