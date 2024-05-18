@@ -17,7 +17,7 @@ async function main({ g, c }) {
   console.log(context.eventName)
   if (context.eventName == "issue_comment") {
     return await getIssueCommentEventType(context)
-  } else if (context.eventName == "issue") {
+  } else if (context.eventName == "issues") {
     return await getIssueEventType(context)
   } else if (context.eventName == "pull_request") {
     return await getPullRequestEventType(context)
