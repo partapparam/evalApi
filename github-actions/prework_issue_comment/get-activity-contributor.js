@@ -30,37 +30,62 @@ async function main({ g, c }) {
 }
 
 async function getIssueEventType(context) {
-  let contributor = ""
+  const activityDetail = {
+    contributor: "",
+    action: context.payload.action,
+    activityObject: `#${context.payload.issue.number}`,
+  }
   if (context.payload.action == "opened") {
-    contributor = context.payload.issue.user.login
+    activityDetail.contributor = context.payload.issue.user.login
   } else if (context.payload.action == "closed") {
     //   context.payload.issue.assignee.login can be null if issue is not assigned
     //   and marked closed
-    contributor = context.payload.issue.assignee.login || context.actor
+    activityDetail.contributor =
+      context.payload.issue.assignee.login || context.actor
   } else {
     //   assigned or unassigned
     //   on unassigned event, the `issue.assignee` is null.
-    contributor = context.payload.assignee.login
+    activityDetail.contributor = context.payload.assignee.login
   }
-  return contributor
+  return activityDetail
 }
 
 async function getIssueCommentEventType(context) {
-  return context.payload.comment.user.login
+  const activityDetail = {
+    contributor: context.payload.comment.user.login,
+    action: context.payload.action,
+    activityObject: context.payload.comment.url,
+  }
+  return activityDetail
 }
 
 async function getPullRequestEventType(context) {
-  return context.payload.pull_request.user.login
+  const activityDetail = {
+    contributor: context.payload.pull_request.user.login,
+    action: context.payload.action,
+    activityObject: `#${context.payload.pull_request.number}`,
+  }
+  return activityDetail
 }
 
 async function getPullRequestReviewEventType(context) {
   // also achievable by the context.sender - user who did this event
-  return context.payload.review.user.login
+  const activityDetail = {
+    contributor: context.payload.review.user.login,
+    action: context.payload.action,
+    activityObject: `#${context.payload.pull_request.number}`,
+  }
+  return activityDetail
 }
 
 async function getPullRequestReviewCommentEventType(context) {
   // also achievable by the context.sender - user who did this event
-  return context.payload.comment.user.login
+  const activityDetail = {
+    contributor: context.payload.comment.user.login,
+    action: context.payload.action,
+    activityObject: `#${context.payload.comment.url}`,
+  }
+  return activityDetail
 }
 
 module.exports = main

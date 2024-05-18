@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Determine activity and contributor
-        id: get-contributor
+      - name: Get activity detail
+        id: get-activity-detail
         uses: actions/github-script@v7
         with:
           script: |
@@ -27,7 +27,7 @@ jobs:
         with:
           script: |
             const script = require('./github-actions/prework_issue_comment/get-prework-issue.js')
-            const contributor = ${{steps.get-contributor.outputs.result}}
+            const contributor = ${{steps.get-activity-detail.outputs.result}}
             return script({g: github, c: context}, contributor)
 
       - name: Update prework issue status
