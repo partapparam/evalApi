@@ -27,7 +27,7 @@ async function getIssueByLabel(actor, label, github, context) {
 const query = `
 query ($actor: String!, $label: String!, $owner: String!, $repository: String!) {
   repository (owner: $owner, name: $repository) {
-   issues (first: 1, filterBy: {createdBy: $actor labels: [$label]}) {
+   issues (first: 10, filterBy: {createdBy: $actor labels: [$label]}) {
      nodes {
        __typename
        ... on Issue {
