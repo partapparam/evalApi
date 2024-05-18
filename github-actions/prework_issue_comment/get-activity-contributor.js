@@ -14,22 +14,22 @@ async function main({ g, c }) {
   github = g
   context = c
   //   console.log(context)
-  console.log(context.eventName, context)
+  //   console.log(context.eventName, context)
   if (context.eventName == "issue_comment") {
-    return getIssueCommentEventType(context)
+    return await getIssueCommentEventType(context)
   } else if (context.eventName == "issue") {
-    return getIssueEventType(context)
+    return await getIssueEventType(context)
   } else if (context.eventName == "pull_request") {
-    return getPullRequestEventType(context)
+    return await getPullRequestEventType(context)
   } else if (context.eventName == "pull_request_review") {
-    return getPullRequestReviewEventType(context)
+    return await getPullRequestReviewEventType(context)
   } else if (context.eventName == "pull_request_review_comment") {
-    return getPullRequestReviewCommentEventType(context)
+    return await getPullRequestReviewCommentEventType(context)
   }
   //
 }
 
-function getIssueEventType(context) {
+async function getIssueEventType(context) {
   let contributor = ""
   if (context.payload.action == "opened") {
     contributor = context.payload.issue.user.login
@@ -45,20 +45,20 @@ function getIssueEventType(context) {
   return contributor
 }
 
-function getIssueCommentEventType(context) {
+async function getIssueCommentEventType(context) {
   return context.payload.comment.user.login
 }
 
-function getPullRequestEventType(context) {
+async function getPullRequestEventType(context) {
   return context.payload.pull_request.user.login
 }
 
-function getPullRequestReviewEventType(context) {
+async function getPullRequestReviewEventType(context) {
   // also achievable by the context.sender - user who did this event
   return context.payload.review.user.login
 }
 
-function getPullRequestReviewCommentEventType(context) {
+async function getPullRequestReviewCommentEventType(context) {
   // also achievable by the context.sender - user who did this event
   return context.payload.comment.user.login
 }
