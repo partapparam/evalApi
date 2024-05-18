@@ -11,10 +11,8 @@ async function getIssueByLabel(actor, label, github, context) {
       owner: "partapparam",
       repository: "evalApi",
     })
-    let issues = results.repository.issues.nodes.map((issue) => issue)
-    console.log("issues fetched:", issues)
-    console.log(context)
-    return issues[0]
+    let issue = results.repository.issues.nodes[0]
+    return issue
   } catch (err) {
     throw new Error(err)
   }
