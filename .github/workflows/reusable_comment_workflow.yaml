@@ -27,8 +27,8 @@ jobs:
         with:
           script: |
             const script = require('./github-actions/prework_issue_comment/get-prework-issue.js')
-            const contributor = ${{steps.get-activity-detail.outputs.result}}
-            return script({g: github, c: context}, contributor)
+            const activityDetail = ${{steps.get-activity-detail.outputs.result}}
+            return script({g: github, c: context}, activityDetail)
 
       - name: Update prework issue status
         id: prework-issue-status
@@ -43,6 +43,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const script = require('./github-actions/utils/post-issue-comment.js')
+            const script = require('./github-actions/prework_issue_comment/add-prework-comment.js')
             const issue = ${{steps.prework-issue.outputs.result}}
-            return script(issue.number, 'adding comment', github, context)
+            const activityDetail = ${{steps.prework-issue.outputs.result}}
+            return script(issue.number, activityDetail, github, context)

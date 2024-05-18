@@ -10,14 +10,18 @@ var context
  * @description - This function is the entry point into the javascript file, it formats the md file and posts the comment on the issue
  * @param {Object} g - github object
  * @param {Object} c - context object
- * @param {Object} actor - person who trigger the workflow
+ * @param {Object} activityDetail - person who trigger the workflow
  */
-async function main({ g, c }, actor) {
+async function main({ g, c }, activityDetail) {
   github = g
   context = c
-  actor = "partapparam"
   let label = "Complexity: Prework"
-  const issue = await getIssueByLabel(actor, label, github, context)
+  const issue = await getIssueByLabel(
+    activityDetail.contributor,
+    label,
+    github,
+    context
+  )
   return issue
 }
 
