@@ -41,7 +41,7 @@ query ($actor: String!, $label: String!, $owner: String!, $repository: String!) 
          id
          projectCards {
           nodes {
-            databaseId
+            id
             column {
               name
               id
