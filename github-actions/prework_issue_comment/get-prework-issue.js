@@ -22,6 +22,7 @@ async function main({ g, c }, activityDetail) {
     github,
     context
   )
+  console.log(issue)
   return issue
 }
 
