@@ -15,7 +15,7 @@ var context
 async function main({ g, c }, issue) {
   github = g
   context = c
-  const issueProjectCard = issue.projectCards.nodes[0]
+  const issueProjectCard = issue.projectCards.nodes[0].card
   console.log(" card", issueProjectCard)
 
   // TODO value is hardcoded

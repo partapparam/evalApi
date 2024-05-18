@@ -42,11 +42,6 @@ query ($actor: String!, $label: String!, $owner: String!, $repository: String!) 
          projectCards {
           nodes {
             id
-            column {
-              name
-              id
-              __typename
-            }
           }
         }
       }
