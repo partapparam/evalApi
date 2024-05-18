@@ -53,6 +53,7 @@ query ($actor: String!, $label: String!, $owner: String!, $repository: String!) 
    }
   }
 }
+}
 `
 
 module.exports = getIssueByLabel
