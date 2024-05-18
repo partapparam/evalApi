@@ -13,8 +13,10 @@ async function getIssueByLabel(actor, label, github, context) {
     })
 
     let issue = results.repository.issues.nodes[0]
+    console.log(issue)
     return issue
   } catch (err) {
+    console.error(err)
     throw new Error(err)
   }
 }
