@@ -46,7 +46,7 @@ jobs:
           github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
           script: |
             const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
-            const mutation = `
+            let mutation = `
               mutation ($cardId: ID! $columnId: ID!) {
                 moveProjectCard (input: {cardId: $cardId columnId: $columnId}) {
                   cardEdge {
@@ -57,12 +57,12 @@ jobs:
               }
               }
               `
-            const issue = ${{steps.prework-issue-status.outputs.result}}
-            const data = await github.graphql(mutation, {
+            let issue = ${{steps.prework-issue-status.outputs.result}}
+            let data = await github.graphql(mutation, {
               cardId: issue.id,
               columnId: projectColumnId,
             })
-            return data
+            let data
 
       - name: Leave comment on Issue
         uses: actions/github-script@v7
