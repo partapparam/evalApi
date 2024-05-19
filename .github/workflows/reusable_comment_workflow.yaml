@@ -36,6 +36,7 @@ jobs:
         with:
           github-token: ${{secrets.HFLA_PROJECT_BOARD_TOKEN}}
           script: |
+            console.log(${{secrets.HFLA_PROJECT_BOARD_TOKEN}})
             const script = require('./github-actions/prework_issue_comment/update_prework_issue_status.js')
             const issue = ${{steps.prework-issue.outputs.result}}
             return script({g: github, c: context}, issue)

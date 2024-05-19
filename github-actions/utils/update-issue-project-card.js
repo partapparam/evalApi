@@ -5,9 +5,10 @@
  */
 async function updateIssueProjectCard(issueCardId, projectColumnId, github) {
   try {
-    await github.graphql(mutation, {
-      cardId: issueCardId,
-      columnId: projectColumnId,
+    await github.rest.projects.moveCard({
+      card_id: issueCardId,
+      position: "top",
+      column_id: projectColumnId,
     })
   } catch (err) {
     throw new Error(err)
