@@ -59,7 +59,7 @@ jobs:
               `
             const issue = ${{steps.prework-issue-status.outputs.result}}
             const data = await github.graphql(mutation, {
-              cardId: issueCardId,
+              cardId: issue.id,
               columnId: projectColumnId,
             })
             return data
