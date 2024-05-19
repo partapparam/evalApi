@@ -31,9 +31,6 @@ query ($actor: String!, $label: String!, $owner: String!, $repository: String!) 
      nodes {
        __typename
        ... on Issue {
-         author {
-          login
-        }
          title
          closed
          number
