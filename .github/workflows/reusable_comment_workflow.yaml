@@ -45,7 +45,7 @@ jobs:
         with:
           github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
           script: |
-            const projectColumnId = "PC_lATOLVwEr84A4jIbzgEvVeo"
+            const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
             const mutation = `
               mutation ($cardId: ID! $columnId: ID!) {
                 moveProjectCard (input: {cardId: $cardId columnId: $columnId}) {
