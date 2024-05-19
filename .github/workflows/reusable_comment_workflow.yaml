@@ -34,7 +34,6 @@ jobs:
         id: prework-issue-status
         uses: actions/github-script@v7
         with:
-          # github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
           script: |
             const script = require('./github-actions/prework_issue_comment/update_prework_issue_status.js')
             const issue = ${{steps.prework-issue.outputs.result}}
@@ -44,14 +43,16 @@ jobs:
         id: move-issue
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
           script: |
-            const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
+            const projectColumnId = "PC_lATOLVwEr84A4jIbzgEvVeo"
             const issue = ${{steps.prework-issue-status.outputs.result}}
-            await github.rest.projects.moveCard({
+            const data = await github.rest.projects.moveCard({
               card_id: issue.id,
               position: "top",
               column_id: projectColumnId,
             })
+            console.log(data)
 
       - name: Leave comment on Issue
         uses: actions/github-script@v7

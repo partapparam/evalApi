@@ -32,6 +32,8 @@ async function main({ g, c }, issue) {
     //   github,
     //   context
     // )
+  } else {
+    issue.projectCards.nodes[0]
   }
 }
 
