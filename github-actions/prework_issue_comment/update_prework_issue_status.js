@@ -21,6 +21,7 @@ async function main({ g, c }, issue) {
   const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
   if (issue.closed == true) {
     const result = await reopenIssue(issue.id, github, context)
+    console.log(issue.projectCards.nodes)
     // const issueProjectCard = result.reopenIssue.issue.projectCards.nodes[0]
     await updateIssueProjectCard(
       issue.projectCards.nodes[0].id,
