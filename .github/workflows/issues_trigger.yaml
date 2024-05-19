@@ -91,6 +91,7 @@ jobs:
     permissions:
       issues: write
     uses: partapparam/evalApi/.github/workflows/reusable_comment_workflow.yaml@master
+    secrets: inherit
 # MARKED AS COMPLETED
 # state: 'closed',
 # state_reason: 'completed',
