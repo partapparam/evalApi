@@ -3,19 +3,11 @@
  * @param {String} issueCardId - the issue card ID
  * @param {String} projectColumnId - the project column ID
  */
-async function updateIssueProjectCard(
-  issueCardId,
-  projectColumnId,
-  github,
-  context
-) {
+async function updateIssueProjectCard(issueCardId, projectColumnId, github) {
   try {
-    await github.rest.projects.moveCard({
-      // owner: context.repo.owner,
-      // repo: context.repo.repo,
-      card_id: issueCardId,
-      position: "top",
-      column_id: projectColumnId,
+    await github.graphql(mutation, {
+      cardId: issueCardId,
+      columnId: projectColumnId,
     })
   } catch (err) {
     throw new Error(err)
