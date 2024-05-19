@@ -16,7 +16,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const script = require('./github-actions/prework_issue_comment/get-activity-contributor.js')
+            const script = require('./github-actions/prework_issue_comment/get-activity-detail.js')
             const contributor = script({g: github, c: context})
             return contributor
 
@@ -34,35 +34,35 @@ jobs:
         id: prework-issue-status
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
           script: |
             const script = require('./github-actions/prework_issue_comment/update_prework_issue_status.js')
             const issue = ${{steps.prework-issue.outputs.result}}
             return script({g: github, c: context}, issue)
 
-      - name: Move issue
-        id: move-issue
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
-          script: |
-            const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
-            let mutation = `
-              mutation ($cardId: ID! $columnId: ID!) {
-                moveProjectCard (input: {cardId: $cardId columnId: $columnId}) {
-                  cardEdge {
-                    node {
-                      resourcePath
-                    }
-                  }
-              }
-              }
-              `
-            let issue = ${{steps.prework-issue-status.outputs.result}}
-            let data = await github.graphql(mutation, {
-              cardId: issue.id,
-              columnId: projectColumnId,
-            })
-            let data
+      # - name: Move issue
+      #   id: move-issue
+      #   uses: actions/github-script@v7
+      #   with:
+      #     github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
+      #     script: |
+      #       const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
+      #       let mutation = `
+      #         mutation ($cardId: ID! $columnId: ID!) {
+      #           moveProjectCard (input: {cardId: $cardId columnId: $columnId}) {
+      #             cardEdge {
+      #               node {
+      #                 resourcePath
+      #               }
+      #             }
+      #         }
+      #         }
+      #         `
+      #       let issue = ${{steps.prework-issue-status.outputs.result}}
+      #       let data = await github.graphql(mutation, {
+      #         cardId: issue.id,
+      #         columnId: projectColumnId,
+      #       })
 
       - name: Leave comment on Issue
         uses: actions/github-script@v7
