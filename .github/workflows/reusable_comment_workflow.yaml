@@ -34,7 +34,7 @@ jobs:
         id: prework-issue-status
         uses: actions/github-script@v7
         with:
-          github-token: ${{secrets.HFLA_PROJECT_BOARD_TOKEN}}
+          github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
           script: |
             console.log(${{secrets.HFLA_PROJECT_BOARD_TOKEN}})
             const script = require('./github-actions/prework_issue_comment/update_prework_issue_status.js')

@@ -24,7 +24,12 @@ async function main({ g, c }, issue) {
     console.log("returned issue", result.reopenIssue.issue.projectCards)
     const issueProjectCard = result.reopenIssue.issue.projectCards.nodes[0]
     console.log(issueProjectCard)
-    await updateIssueProjectCard(issueProjectCard.id, projectColumnId, github)
+    await updateIssueProjectCard(
+      issueProjectCard.id,
+      projectColumnId,
+      github,
+      context
+    )
   }
 }
 

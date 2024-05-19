@@ -3,9 +3,16 @@
  * @param {String} issueCardId - the issue card ID
  * @param {String} projectColumnId - the project column ID
  */
-async function updateIssueProjectCard(issueCardId, projectColumnId, github) {
+async function updateIssueProjectCard(
+  issueCardId,
+  projectColumnId,
+  github,
+  context
+) {
   try {
     await github.rest.projects.moveCard({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
       card_id: issueCardId,
       position: "top",
       column_id: projectColumnId,
