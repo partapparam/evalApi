@@ -43,7 +43,8 @@ jobs:
         id: move-issue
         uses: actions/github-script@v7
         with:
-          # github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
+          github-token: ${{ secrets.HFLA_PROJECT_BOARD_TOKEN }}
+          base-url: ${{ github.api_url }}
           script: |
             const projectColumnId = "PC_lATOLVwEr84A4jIbzgEvVeo"
             const issue = ${{steps.prework-issue-status.outputs.result}}
