@@ -13,8 +13,8 @@ var context
 async function main({ g, c }) {
   github = g
   context = c
-  //   console.log(context)
-  console.log(context.eventName)
+  console.log(context)
+  // console.log(context.eventName)
   if (context.eventName == "issue_comment") {
     return await getIssueCommentEventType(context)
   } else if (context.eventName == "issues") {
