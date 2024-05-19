@@ -11,8 +11,8 @@ async function updateIssueProjectCard(
 ) {
   try {
     await github.rest.projects.moveCard({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      // owner: context.repo.owner,
+      // repo: context.repo.repo,
       card_id: issueCardId,
       position: "top",
       column_id: projectColumnId,
