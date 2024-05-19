@@ -22,7 +22,11 @@ async function main({ g, c }, issue) {
   if (issue.closed == true) {
     const result = await reopenIssue(issue.id, github, context)
     const issueProjectCard = result.reopenIssue.issue.projectCards.nodes[0]
-    await updateIssueProjectCard(issueProjectCard.id, projectColumnId, github)
+    await updateIssueProjectCard(
+      issue.projectCards.nodes[0].id,
+      projectColumnId,
+      github
+    )
   }
 }
 
