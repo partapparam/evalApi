@@ -19,12 +19,13 @@ async function main({ g, c }, issue) {
   // TODO value is hardcoded
   // Project Number =1 , for HFLA project number = 7
   const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
+  console.log(issue)
   if (issue.closed == true) {
+    // TODO: how to get the project card id
     const result = await reopenIssue(issue.id, github, context)
-    const issueProjectCard = result.reopenIssue.issue.projectCards.nodes[0]
-    console.log(issueProjectCard)
-    await updateIssueProjectCard(issueProjectCard.id, projectColumnId, github)
+    return result.reopenIssue.issue
   }
+  return false
 }
 
 module.exports = main
