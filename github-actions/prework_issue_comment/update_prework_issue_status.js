@@ -23,6 +23,7 @@ async function main({ g, c }, issue) {
   if (issue.closed == true) {
     // TODO: how to get the project card id
     const result = await reopenIssue(issue.id, github, context)
+    console.log(result)
     return result.reopenIssue.issue
   }
   return false

@@ -4,9 +4,10 @@
  */
 async function reopenIssue(issueId, github, context) {
   try {
-    return await github.graphql(mutation, {
+    const response = await github.graphql(mutation, {
       issueId: issueId,
     })
+    return response
   } catch (err) {
     throw new Error(err)
   }
