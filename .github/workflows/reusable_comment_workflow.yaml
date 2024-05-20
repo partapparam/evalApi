@@ -63,7 +63,7 @@ jobs:
             if (issue) {
               let cardId = issue.projectCards[0].id
               return await github.graphql(mutation, {
-                cardId: issue.id,
+                cardId: cardId,
                 columnId: projectColumnId,
               })
             }
