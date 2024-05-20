@@ -21,7 +21,6 @@ async function main({ g, c }, issue) {
   const projectColumnId = "PC_lATOJyGIJc4A4juVzgEvcLk"
   console.log(issue)
   if (issue.closed == true) {
-    // TODO: how to get the project card id
     const result = await reopenIssue(issue.id, github, context)
     console.log(result)
     return result.reopenIssue.issue
