@@ -55,7 +55,7 @@ jobs:
                       resourcePath
                     }
                   }
-              }
+                }
               }
               `
             let issue = ${{steps.prework-issue-status.outputs.result}}
