@@ -59,8 +59,9 @@ jobs:
               }
               `
             let issue = ${{steps.prework-issue-status.outputs.result}}
+            console.log(issue)
             if (issue) {
-              let cardId = issue.projectCards.nodes[0].id
+              let cardId = issue.projectCards[0].id
               return await github.graphql(mutation, {
                 cardId: issue.id,
                 columnId: projectColumnId,
