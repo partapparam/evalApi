@@ -5,12 +5,12 @@
  */
 async function getIssueByLabel(actor, labels, github, context) {
   try {
-    console.log(context.payload.repository.owner)
+    const [owner, name] = context.payload.repository.full_name.split("/")
     let results = await github.graphql(query, {
       actor: actor,
       labels: labels,
-      owner: context.payload.repository.owner.name,
-      repository: context.payload.repository.name,
+      owner: owner,
+      repository: name,
     })
 
     let issue = results.repository.issues.nodes[0]
