@@ -15,10 +15,10 @@ var context
 async function main({ g, c }, activityDetail) {
   github = g
   context = c
-  let label = "Complexity: Prework"
+  let labels = ["Complexity: Prework"]
   const issue = await getIssueByLabel(
     activityDetail.contributor,
-    label,
+    labels,
     github,
     context
   )
