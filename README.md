@@ -1,7 +1,7 @@
 ### EvalApi
 EvalApi is a Node.js/Express backend API for Eval, a platform where service providers can rate homeowners. This project provides a robust and secure server-side implementation for the Eval application.
 
-Checkout the front-end - [Eval Client](https://github.com/partapparam/evalClient)
+### Checkout the front-end - [Eval Client](https://github.com/partapparam/evalClient)
 
 
 ### Features
